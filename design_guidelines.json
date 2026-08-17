@@ -1,0 +1,98 @@
+{
+  "project_name": "Prime Journey India",
+  "tagline": "India, Your Way",
+  "theme": "light",
+  "archetype": "Organic & Earthy / Luxury",
+  "typography": {
+    "headings": {
+      "fontFamily": "'Plus Jakarta Sans', sans-serif",
+      "weights": ["600", "700", "800"],
+      "usage": "Hero titles, section headers, prominent numbers."
+    },
+    "body": {
+      "fontFamily": "'Manrope', sans-serif",
+      "weights": ["400", "500", "600", "700"],
+      "usage": "Paragraphs, UI elements, button text."
+    },
+    "editorial_accent": {
+      "fontFamily": "'DM Serif Display', serif",
+      "usage": "Use sparingly for large quotes, stylized ampersands, or overarching labels."
+    }
+  },
+  "colors": {
+    "primary": "#0A2540",
+    "secondary": "#1ABC9C",
+    "accent_gold": "#D4AF37",
+    "accent_saffron": "#FF9933",
+    "accent_coral": "#FF7F50",
+    "background_white": "#FFFFFF",
+    "background_offwhite": "#F9FAFB",
+    "text_dark": "#333333",
+    "text_light": "#FFFFFF"
+  },
+  "layouts": {
+    "destinations_grid": "The Bento/Tetris grid. md:grid-cols-8 lg:grid-cols-12 gap-8. Mix tall, wide, and square cards.",
+    "experiences_layout": "Overlapping images with large typography behind/in front of the images.",
+    "spacing": "Generous. Use py-24 or py-32 for section padding."
+  },
+  "motion": {
+    "global": "Lenis for smooth scrolling (MANDATORY).",
+    "hero": "Cinematic. Slow pan/zoom on images. Text enters via clip reveal or subtle slide-up stagger. NO bouncing.",
+    "particles": "Use TSParticles or framer-motion for snow (Kashmir), golden dust (Rajasthan), shimmering light (Amritsar).",
+    "interactions": "Hover scale (1.02) and subtle shadow increase. Image hover = slow 1.05 scale inside overflow-hidden container.",
+    "price_counter": "Use framer-motion useSpring/animate to animate from ₹39,999 to ₹29,999."
+  },
+  "visual_enhancers": {
+    "torn_paper": "Create a premium travel magazine vibe. Wrap an image in a div, apply a jagged SVG mask-image (or clip-path), add drop-shadow and slight rotation.",
+    "glassmorphism": "Used for sticky nav and modal overlays. bg-white/80 backdrop-blur-xl border-b border-gray-100. NEVER fully transparent.",
+    "textures": "Subtle noise overlay across the site to give it a cinematic film feel."
+  },
+  "components": {
+    "utility_bar": "Very slim at the top. Background deep ocean blue (#0A2540). Text white. Text size text-xs. Link 'Prime HomeEase' (primehomeease.com, new tab), +91 8699913245, contact@primejourneyindia.com, Language (EN/HI/PA).",
+    "navbar": "Sticky at top, Z-50. White glassmorphism (bg-white/90 backdrop-blur). Links: Destinations, Holidays, Experiences, Packages, Customize, About. Right: Login + Book Now.",
+    "founders": "Use Shadcn Avatar with initials (M, D, A, R) for Master, Dheeraj, Abhishek, Ramesh."
+  },
+  "accessibility": {
+    "testing": "All interactive and key informational elements MUST include a 'data-testid' attribute.",
+    "contrast": "Ensure text over images has sufficient contrast using background overlays (e.g., bg-black/40) or text shadows."
+  },
+  "image_urls": {
+    "hero_rajasthan": "https://images.pexels.com/photos/19070885/pexels-photo-19070885.jpeg",
+    "hero_kashmir": "https://images.unsplash.com/photo-1594640614203-436526f3d980",
+    "hero_amritsar": "https://images.unsplash.com/photo-1621377099913-ac1ec4848e52",
+    "dest_rajasthan": "https://images.pexels.com/photos/797824/pexels-photo-797824.jpeg",
+    "dest_kashmir": "https://images.unsplash.com/photo-1594640614203-436526f3d980",
+    "dest_amritsar": "https://images.unsplash.com/photo-1609947017136-9daf32a5eb16",
+    "dest_kerala": "https://images.unsplash.com/photo-1514222134-b57cbb8ce073",
+    "dest_goa": "https://images.unsplash.com/photo-1714893520131-4fb6dd335e83",
+    "dest_himachal": "https://images.unsplash.com/photo-1710347454810-e3d493dcc538",
+    "dest_uttarakhand": "https://images.unsplash.com/photo-1648217516771-74a081268aac",
+    "dest_northeast": "https://images.pexels.com/photos/29429170/pexels-photo-29429170.jpeg",
+    "experience_shikara": "https://images.unsplash.com/photo-1594640614203-436526f3d980",
+    "experience_forts": "https://images.pexels.com/photos/797824/pexels-photo-797824.jpeg",
+    "experience_wagah": "https://images.pexels.com/photos/14890717/pexels-photo-14890717.jpeg",
+    "experience_desert": "https://images.unsplash.com/photo-1710347454810-e3d493dcc538",
+    "customize_form": "https://images.pexels.com/photos/19070885/pexels-photo-19070885.jpeg",
+    "torn_paper_bg": "https://images.unsplash.com/photo-1609947017136-9daf32a5eb16"
+  },
+  "instructions_to_main_agent": [
+    "Build a standard React (.js) frontend. DO NOT use TypeScript (.tsx).",
+    "Use Shadcn UI for forms, inputs, modals, tabs, avatars.",
+    "Implement Lenis for smooth scrolling.",
+    "Implement Framer Motion for scroll reveals, staggering list items, and animating the price counter.",
+    "Use Lucide-react for all icons.",
+    "Do NOT use placeholder text or external placeholder image URLs. Use the provided image URLs or Shadcn Avatar fallbacks.",
+    "Ensure 'data-testid' is present on all interactive elements.",
+    "Make sure the navbar glassmorphism has a background color (e.g. bg-white/80), NOT fully transparent.",
+    "Torn paper effect must be achieved using CSS (mask-image with jagged SVG path or clip-path) layered over/under text."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Don't make generic centered layouts. Create depth through layered design elements with z-index hierarchy.",
+    "You MUST NOT apply universal transition (transition: all). Use specific transitions.",
+    "You MUST NOT center align the app container (.App { text-align: center; }).",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Never use AI assistant Emoji characters for icons."
+  ]
+}

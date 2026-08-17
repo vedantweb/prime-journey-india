@@ -1,0 +1,99 @@
+export const whyUs = [
+  {
+    icon: 'route',
+    title: 'Journeys Built Around You',
+    body: "We don't believe every traveller should follow the same itinerary. We shape journeys around your time, interests and way of travelling.",
+  },
+  {
+    icon: 'compass',
+    title: 'India Beyond The Postcard',
+    body: 'Discover iconic landmarks alongside the places, experiences and local moments that make a destination memorable.',
+  },
+  {
+    icon: 'clipboard',
+    title: 'Thoughtful Planning',
+    body: 'From the first conversation to the journey home, every detail is planned with clarity and care.',
+  },
+  {
+    icon: 'headset',
+    title: 'Real Human Support',
+    body: 'Travel planning should never feel like dealing with a machine. Our team stays connected when you need us.',
+  },
+  {
+    icon: 'heart',
+    title: 'Experiences That Stay With You',
+    body: "We don't simply arrange a destination. We create the kind of moments you remember long after the journey ends.",
+  },
+  {
+    icon: 'users',
+    title: 'One Journey. One Team.',
+    body: 'From planning and booking to support during your trip, keep your travel experience connected through one trusted team.',
+  },
+];
+
+export const leadership = [
+  {
+    id: 'ramesh',
+    name: 'Mr. Ramesh Dhir',
+    role: 'Founder',
+    initials: 'RD',
+    tone: 'ocean',
+    note: 'The vision behind Prime Journey India — a lifetime of love for the road, distilled into journeys built around people.',
+  },
+  {
+    id: 'abhishek',
+    name: 'Mr. Abhishek Dhir',
+    role: 'Co-Founder',
+    initials: 'AD',
+    tone: 'saffron',
+    note: 'Shapes every itinerary with an eye for detail — routes, stays and moments that feel effortless to the traveller.',
+  },
+  {
+    id: 'dheeraj',
+    name: 'Mr. Dheeraj Dhir',
+    role: 'Co-Founder',
+    initials: 'DD',
+    tone: 'turq',
+    note: 'Keeps every journey connected — planning, booking and on-trip support handled by one steady hand.',
+  },
+];
+
+export const adminRoles = [
+  { id: 'master', label: 'Master', greeting: 'Welcome, Master', initials: 'PJ', tone: 'gold', image: 'logo' },
+  { id: 'dheeraj', label: 'Dheeraj', greeting: 'Welcome, Mr. Dheeraj', initials: 'DD', tone: 'turq', image: 'cofounder2' },
+  { id: 'abhishek', label: 'Abhishek', greeting: 'Welcome, Mr. Abhishek', initials: 'AD', tone: 'saffron', image: 'cofounder1' },
+  { id: 'ramesh', label: 'Ramesh', greeting: 'Welcome, Mr. Ramesh', initials: 'RD', tone: 'ocean', image: 'founder' },
+];
+
+export const story = {
+  quote: 'Every journey has a story.',
+  ourStory:
+    'Prime Journey India was born in Amritsar — a city where every traveller is treated as a guest, and every guest as family. What began as a small team helping friends discover the valleys of Kashmir and the forts of Rajasthan has grown into a travel house built on one belief: no two journeys should ever be the same.',
+  vision:
+    'An India that every traveller experiences in their own way — deeply, comfortably and memorably.',
+  mission:
+    'To craft journeys around people, not templates — planned with honesty, delivered with care, and supported by real humans at every step.',
+  philosophy:
+    'We plan the way we would for our own family. We recommend only what we have seen, stayed in and loved ourselves, and we stay reachable from the first conversation to the journey home.',
+  values: [
+    { title: 'Honesty First', body: 'Clear prices, real photographs and advice you can trust.' },
+    { title: 'Guest As Family', body: 'The warmth of Punjabi hospitality, carried across every journey.' },
+    { title: 'Detail Obsessed', body: 'The small things — timings, rooms, routes — planned before you ask.' },
+    { title: 'Always Reachable', body: 'A real person from our team, one call away, throughout your trip.' },
+  ],
+};
+
+export const legal = {
+  privacy: {
+    title: 'Privacy Policy',
+    body: 'Prime Journey India collects only the details you share with us through enquiry and booking forms — your name, contact information and travel preferences. These are used solely to plan and manage your journey, and are never sold or shared with third parties outside your booking. You may ask us to view or delete your details at any time by writing to contact@primejourneyindia.com.',
+  },
+  terms: {
+    title: 'Terms of Service',
+    body: 'Submitting an enquiry or booking request does not confirm a reservation. All quotations are subject to availability at the time of confirmation, and prices may vary with season, hotel category and group size. A journey is confirmed only after written confirmation and receipt of the advance payment communicated by our team.',
+  },
+  cancellation: {
+    title: 'Cancellation Policy',
+    body: 'We understand that plans change. Cancellations are handled case by case with fairness and transparency — refunds depend on how far in advance you cancel and on the policies of hotels and transporters involved in your journey. Write to Bookings@primejourneyindia.com and our team will walk you through the options before any deduction is made.',
+  },
+};
