@@ -8,7 +8,9 @@ import SeasonExplorer from '../components/SeasonExplorer';
 import TravelStyles from '../components/TravelStyles';
 import Experiences from '../components/Experiences';
 import WhyUs from '../components/WhyUs';
+import Reviews from '../components/Reviews';
 import Leadership from '../components/Leadership';
+import HomeEaseBand from '../components/HomeEaseBand';
 import Customize from '../components/Customize';
 import Contact from '../components/Contact';
 import { scrollToId } from '../components/Header';
@@ -34,7 +36,9 @@ export default function Home() {
       <TravelStyles />
       <Experiences />
       <WhyUs />
+      <Reviews />
       <Leadership />
+      <HomeEaseBand />
       <Customize />
       <Contact />
     </>

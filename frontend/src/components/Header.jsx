@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Menu, User, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import Logo from './Logo';
 import { navLinks } from '../data/siteConfig';
 import { useUI } from '../context/UIContext';
@@ -16,7 +16,7 @@ export const scrollToId = (id) => {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { user, openAuth, openBooking } = useUI();
+  const { openBooking, openFeedback } = useUI();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,14 +27,18 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const go = (target) => {
+  const go = (link) => {
     setOpen(false);
-    if (target.startsWith('/')) {
-      navigate(target);
+    if (link.action === 'feedback') {
+      openFeedback();
       return;
     }
-    if (location.pathname !== '/') navigate('/', { state: { scrollTo: target } });
-    else scrollToId(target);
+    if (link.target.startsWith('/')) {
+      navigate(link.target);
+      return;
+    }
+    if (location.pathname !== '/') navigate('/', { state: { scrollTo: link.target } });
+    else scrollToId(link.target);
   };
 
   return (
@@ -45,7 +49,7 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <button data-testid="nav-home" onClick={() => go('/')} className="shrink-0" aria-label="Prime Journey India home">
+        <button data-testid="nav-home" onClick={() => navigate('/')} className="shrink-0" aria-label="Prime Journey India home">
           <Logo />
         </button>
 
@@ -54,7 +58,7 @@ export default function Header() {
             <button
               key={l.label}
               data-testid={`nav-${l.label.toLowerCase()}`}
-              onClick={() => go(l.target)}
+              onClick={() => go(l)}
               className={`link-underline font-body text-[13.5px] font-semibold tracking-wide text-ocean/80 transition-colors duration-200 hover:text-ocean ${
                 l.target === '/about' && location.pathname === '/about' ? 'active text-ocean' : ''
               }`}
@@ -65,24 +69,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2.5">
-          {user ? (
-            <button
-              data-testid="btn-profile"
-              onClick={() => openAuth('profile')}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-ocean font-display text-sm font-bold text-white transition-transform duration-200 hover:scale-105"
-              aria-label="Your profile"
-            >
-              {user.name?.charAt(0).toUpperCase()}
-            </button>
-          ) : (
-            <button
-              data-testid="btn-login"
-              onClick={() => openAuth('login')}
-              className="hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13.5px] font-semibold text-ocean transition-colors duration-200 hover:bg-ocean/5 sm:flex"
-            >
-              <User size={15} /> Login
-            </button>
-          )}
           <button
             data-testid="btn-book-now"
             onClick={() => openBooking()}
@@ -113,26 +99,16 @@ export default function Header() {
             aria-label="Mobile"
           >
             <div className="flex flex-col px-6 py-4">
-              {navLinks.map((l, i) => (
+              {navLinks.map((l) => (
                 <button
                   key={l.label}
                   data-testid={`nav-mobile-${l.label.toLowerCase()}`}
-                  onClick={() => go(l.target)}
-                  className="border-b border-ocean/5 py-3.5 text-left font-display text-base font-bold text-ocean"
-                  style={{ transitionDelay: `${i * 20}ms` }}
+                  onClick={() => go(l)}
+                  className="border-b border-ocean/5 py-3.5 text-left font-display text-lg font-bold text-ocean last:border-0"
                 >
                   {l.label}
                 </button>
               ))}
-              {!user && (
-                <button
-                  data-testid="btn-login-mobile"
-                  onClick={() => { setOpen(false); openAuth('login'); }}
-                  className="py-3.5 text-left font-display text-base font-bold text-saffron"
-                >
-                  Login
-                </button>
-              )}
             </div>
           </motion.nav>
         )}

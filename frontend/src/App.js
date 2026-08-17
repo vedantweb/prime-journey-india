@@ -6,13 +6,15 @@ import { UIProvider } from './context/UIContext';
 import UtilityBar from './components/UtilityBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import WhatsAppButton from './components/WhatsAppButton';
+import ContactRail from './components/ContactRail';
 import BookingModal from './components/BookingModal';
-import AuthModal from './components/AuthModal';
+import FeedbackModal from './components/FeedbackModal';
 import LegalModal from './components/LegalModal';
 import Home from './pages/Home';
 import About from './pages/About';
 import Admin from './pages/Admin';
+import DestinationDetail from './pages/DestinationDetail';
+import PackageDetail from './pages/PackageDetail';
 
 function ScrollManager() {
   const { pathname, state } = useLocation();
@@ -43,7 +45,7 @@ function LenisRoot() {
 
 function Shell() {
   const { pathname } = useLocation();
-  const isAdmin = pathname === '/admin';
+  const isAdmin = pathname.startsWith('/admin');
   return (
     <div className="min-h-screen bg-white font-body text-ink">
       <LenisRoot />
@@ -55,13 +57,15 @@ function Shell() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/destinations/:id" element={<DestinationDetail />} />
+          <Route path="/packages/:id" element={<PackageDetail />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
       {!isAdmin && <Footer />}
-      <WhatsAppButton />
+      <ContactRail />
       <BookingModal />
-      <AuthModal />
+      <FeedbackModal />
       <LegalModal />
       <Toaster richColors position="top-center" />
       <div className="grain-overlay" aria-hidden="true" />

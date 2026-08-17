@@ -1,17 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, CloudRain, Snowflake, Sun } from 'lucide-react';
 import { packages, seasons } from '../data/packages';
 import { EffectLayer } from './effects/EnvironmentEffects';
 import { SectionHeading, Reveal } from './Section';
-import { useUI } from '../context/UIContext';
 
 const ICONS = { winter: Snowflake, summer: Sun, monsoon: CloudRain };
 
 export default function SeasonExplorer() {
   const [active, setActive] = useState('winter');
   const season = seasons[active];
-  const { openBooking } = useUI();
+  const navigate = useNavigate();
 
   return (
     <section id="seasons" data-testid="section-seasons" className="bg-white py-24 sm:py-32">
@@ -33,7 +33,7 @@ export default function SeasonExplorer() {
                   key={key}
                   data-testid={`season-tab-${key}`}
                   onClick={() => setActive(key)}
-                  className={`relative flex items-center gap-2 rounded-full px-5 py-2.5 font-display text-sm font-bold transition-colors duration-300 sm:px-7 ${
+                  className={`relative flex items-center gap-2 rounded-full px-5 py-2.5 font-body text-sm font-bold transition-colors duration-300 sm:px-7 ${
                     isActive ? 'text-white' : 'text-ocean/60 hover:text-ocean'
                   }`}
                 >
@@ -63,7 +63,7 @@ export default function SeasonExplorer() {
                 <img src={season.image} alt={season.alt} className="h-full w-full object-cover" />
                 <EffectLayer effects={[season.effect]} />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ocean-deep/75 to-transparent p-7 pt-20">
-                  <p data-testid="season-mood" className="max-w-md font-editorial text-xl italic text-white sm:text-2xl">
+                  <p data-testid="season-mood" className="max-w-md font-editorial text-2xl italic text-white">
                     "{season.mood}"
                   </p>
                 </div>
@@ -74,14 +74,15 @@ export default function SeasonExplorer() {
                   <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-turq">Best in {season.label}</p>
                   <div className="mt-4 flex flex-wrap gap-3">
                     {season.destinations.map((d) => (
-                      <span
+                      <button
                         key={d.name}
                         data-testid={`season-dest-${d.name.toLowerCase()}`}
-                        className="flex items-center gap-2.5 rounded-full border border-ocean/10 bg-cloud py-1.5 pl-1.5 pr-4 text-sm font-bold text-ocean transition-colors duration-300 hover:border-saffron"
+                        onClick={() => navigate(`/destinations/${d.destId}`)}
+                        className="flex items-center gap-2.5 rounded-full border border-ocean/10 bg-cloud py-1.5 pl-1.5 pr-4 text-sm font-bold text-ocean transition-[border-color,box-shadow] duration-300 hover:border-saffron hover:shadow-[0_8px_20px_rgba(255,153,51,0.2)]"
                       >
                         <img src={d.image} alt={d.name} loading="lazy" className="h-9 w-9 rounded-full object-cover" />
                         {d.name}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -91,24 +92,21 @@ export default function SeasonExplorer() {
                     const pkg = packages.find((p) => p.id === id);
                     if (!pkg) return null;
                     return (
-                      <div
+                      <button
                         key={id}
                         data-testid={`season-package-${id}`}
-                        className="group flex items-center gap-4 rounded-2xl border border-ocean/10 bg-white p-3.5 shadow-[0_6px_24px_rgba(6,24,43,0.06)] transition-[box-shadow,border-color] duration-300 hover:border-saffron/60 hover:shadow-[0_14px_36px_rgba(6,24,43,0.12)]"
+                        onClick={() => navigate(`/packages/${id}`)}
+                        className="group flex items-center gap-4 rounded-2xl border border-ocean/10 bg-white p-3.5 text-left shadow-[0_6px_24px_rgba(6,24,43,0.06)] transition-[box-shadow,border-color] duration-300 hover:border-saffron/60 hover:shadow-[0_14px_36px_rgba(6,24,43,0.12)]"
                       >
                         <img src={pkg.image} alt={pkg.alt} loading="lazy" className="h-16 w-20 rounded-xl object-cover" />
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate font-display text-[15px] font-extrabold text-ocean">{pkg.name}</p>
-                          <p className="text-xs font-medium text-ink/55">{pkg.duration}</p>
-                        </div>
-                        <button
-                          data-testid={`season-book-${id}`}
-                          onClick={() => openBooking(pkg.name)}
-                          className="flex items-center gap-1.5 rounded-full bg-ocean/5 px-4 py-2 text-xs font-bold text-ocean transition-colors duration-300 group-hover:bg-saffron group-hover:text-ocean-deep"
-                        >
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate font-display text-lg font-bold text-ocean">{pkg.name}</span>
+                          <span className="block text-xs font-medium text-ink/55">{pkg.duration}</span>
+                        </span>
+                        <span className="flex items-center gap-1.5 rounded-full bg-ocean/5 px-4 py-2 text-xs font-bold text-ocean transition-colors duration-300 group-hover:bg-saffron group-hover:text-ocean-deep">
                           From ₹{pkg.priceTo.toLocaleString('en-IN')} <ArrowRight size={13} />
-                        </button>
-                      </div>
+                        </span>
+                      </button>
                     );
                   })}
                 </div>

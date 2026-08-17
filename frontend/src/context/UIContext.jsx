@@ -4,31 +4,28 @@ import { authService } from '../services/mockService';
 const UIContext = createContext(null);
 
 export function UIProvider({ children }) {
-  const [user, setUser] = useState(() => authService.current());
+  // Public customer login is intentionally removed; the isolated authService
+  // remains for post-export integration. `user` only prefills booking forms.
+  const [user] = useState(() => authService.current());
   const [booking, setBooking] = useState({ open: false, preset: null });
-  const [auth, setAuth] = useState({ open: false, mode: 'login' });
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [legalDoc, setLegalDoc] = useState(null);
 
   const openBooking = useCallback((preset = null) => setBooking({ open: true, preset }), []);
   const closeBooking = useCallback(() => setBooking({ open: false, preset: null }), []);
-  const openAuth = useCallback((mode = 'login') => setAuth({ open: true, mode }), []);
-  const closeAuth = useCallback(() => setAuth((a) => ({ ...a, open: false })), []);
+  const openFeedback = useCallback(() => setFeedbackOpen(true), []);
+  const closeFeedback = useCallback(() => setFeedbackOpen(false), []);
   const openLegal = useCallback((doc) => setLegalDoc(doc), []);
   const closeLegal = useCallback(() => setLegalDoc(null), []);
 
-  const logout = useCallback(() => {
-    authService.logout();
-    setUser(null);
-  }, []);
-
   const value = useMemo(
     () => ({
-      user, setUser, logout,
+      user,
       booking, openBooking, closeBooking,
-      auth, openAuth, closeAuth,
+      feedbackOpen, openFeedback, closeFeedback,
       legalDoc, openLegal, closeLegal,
     }),
-    [user, logout, booking, openBooking, closeBooking, auth, openAuth, closeAuth, legalDoc, openLegal, closeLegal]
+    [user, booking, openBooking, closeBooking, feedbackOpen, openFeedback, closeFeedback, legalDoc, openLegal, closeLegal]
   );
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

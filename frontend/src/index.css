@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -70,11 +70,11 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-@keyframes kenburns {
-    0% { transform: scale(1.02) translate(0, 0); }
-    100% { transform: scale(1.12) translate(-1.2%, -1.5%); }
+@keyframes hero-zoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.06); }
 }
-.kenburns { animation: kenburns 14s ease-out forwards; will-change: transform; }
+.hero-zoom { animation: hero-zoom 16s ease-in-out infinite alternate; will-change: transform; }
 
 @keyframes cloud-drift {
     0% { transform: translateX(-12%); }
@@ -150,7 +150,7 @@
     left: 0; right: 0; bottom: 0;
     pointer-events: none;
     mix-blend-mode: soft-light;
-    background-image: repeating-linear-gradient(101deg, rgba(255,255,255,0.55) 0px, rgba(255,255,255,0) 3px, rgba(255,255,255,0) 11px);
+    background-image: repeating-linear-gradient(101deg, rgba(255,255,255,0.32) 0px, rgba(255,255,255,0) 4px, rgba(255,255,255,0) 16px);
     animation: shimmer-slide 9s linear infinite;
 }
 

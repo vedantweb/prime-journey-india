@@ -21,7 +21,7 @@ export const whyUs = [
   },
   {
     icon: 'heart',
-    title: 'Experiences That Stay With You',
+    title: 'Curated Experiences',
     body: "We don't simply arrange a destination. We create the kind of moments you remember long after the journey ends.",
   },
   {
@@ -31,6 +31,7 @@ export const whyUs = [
   },
 ];
 
+// imageKey maps to the centralized `assets` object in siteConfig.js
 export const leadership = [
   {
     id: 'ramesh',
@@ -38,6 +39,7 @@ export const leadership = [
     role: 'Founder',
     initials: 'RD',
     tone: 'ocean',
+    imageKey: 'founder',
     note: 'The vision behind Prime Journey India — a lifetime of love for the road, distilled into journeys built around people.',
   },
   {
@@ -46,6 +48,7 @@ export const leadership = [
     role: 'Co-Founder',
     initials: 'AD',
     tone: 'saffron',
+    imageKey: 'cofounder1',
     note: 'Shapes every itinerary with an eye for detail — routes, stays and moments that feel effortless to the traveller.',
   },
   {
@@ -54,15 +57,53 @@ export const leadership = [
     role: 'Co-Founder',
     initials: 'DD',
     tone: 'turq',
+    imageKey: 'cofounder2',
     note: 'Keeps every journey connected — planning, booking and on-trip support handled by one steady hand.',
   },
 ];
 
-export const adminRoles = [
-  { id: 'master', label: 'Master', greeting: 'Welcome, Master', initials: 'PJ', tone: 'gold', image: 'logo' },
-  { id: 'dheeraj', label: 'Dheeraj', greeting: 'Welcome, Mr. Dheeraj', initials: 'DD', tone: 'turq', image: 'cofounder2' },
-  { id: 'abhishek', label: 'Abhishek', greeting: 'Welcome, Mr. Abhishek', initials: 'AD', tone: 'saffron', image: 'cofounder1' },
-  { id: 'ramesh', label: 'Ramesh', greeting: 'Welcome, Mr. Ramesh', initials: 'RD', tone: 'ocean', image: 'founder' },
+// Traveller stories — editable demo data, replace with real submissions via the CMS later.
+export const testimonials = [
+  {
+    id: 't1',
+    name: 'Simran Kaur',
+    trip: 'Kashmir Escape',
+    date: 'February 2026',
+    tone: 'turq',
+    text: 'The shikara morning on Dal Lake was planned down to the hour of light. It felt less like a package and more like a friend showing us their Kashmir.',
+  },
+  {
+    id: 't2',
+    name: 'Rohit Malhotra',
+    trip: 'Royal Rajasthan',
+    date: 'December 2025',
+    tone: 'saffron',
+    text: 'Amber Fort at opening time, a quiet stepwell we had never heard of, and a driver who knew every story. This is how Rajasthan should be done.',
+  },
+  {
+    id: 't3',
+    name: 'Priya & Aakash',
+    trip: 'Kerala Backwaters',
+    date: 'January 2026',
+    tone: 'ocean',
+    text: 'Our houseboat crew, the spice garden stop, the little beach detour — every day had one moment we still talk about.',
+  },
+  {
+    id: 't4',
+    name: 'Gurpreet Singh',
+    trip: 'Amritsar Heritage',
+    date: 'November 2025',
+    tone: 'gold',
+    text: 'Golden Temple at sunrise, then Wagah in the evening. Short trip, perfectly paced. The team even guided us to the best kulcha in the old city.',
+  },
+  {
+    id: 't5',
+    name: 'Meena Iyer',
+    trip: 'Himachal Escape',
+    date: 'March 2026',
+    tone: 'coral',
+    text: 'Snow at Solang, cedar walks in Manali, and not one moment of rush. Travelling with parents felt easy for the first time.',
+  },
 ];
 
 export const story = {

@@ -5,12 +5,21 @@ import { siteConfig } from '../data/siteConfig';
 import { scrollToId } from './Header';
 import { useUI } from '../context/UIContext';
 
+function XIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 export default function Footer() {
-  const { openAuth, openBooking, openLegal } = useUI();
+  const { openFeedback, openBooking, openLegal } = useUI();
   const navigate = useNavigate();
   const location = useLocation();
 
   const go = (target) => {
+    if (target === 'feedback') return openFeedback();
     if (target.startsWith('/')) navigate(target);
     else if (location.pathname !== '/') navigate('/', { state: { scrollTo: target } });
     else scrollToId(target);
@@ -31,7 +40,7 @@ export default function Footer() {
       title: 'Popular India',
       links: ['Kashmir', 'Rajasthan', 'Amritsar', 'Himachal', 'Kerala', 'Goa', 'Northeast'].map((d) => ({
         label: d,
-        onClick: () => go('destinations'),
+        onClick: () => navigate(`/destinations/${d.toLowerCase()}`),
         testid: `footer-dest-${d.toLowerCase()}`,
       })),
     },
@@ -40,9 +49,8 @@ export default function Footer() {
       links: [
         { label: 'About', onClick: () => go('/about'), testid: 'footer-about' },
         { label: 'Contact', onClick: () => go('contact'), testid: 'footer-contact' },
-        { label: 'Feedback', onClick: () => go('contact'), testid: 'footer-feedback' },
+        { label: 'Feedback', onClick: () => go('feedback'), testid: 'footer-feedback' },
         { label: 'Book Now', onClick: () => openBooking(), testid: 'footer-book' },
-        { label: 'Login', onClick: () => openAuth('login'), testid: 'footer-login' },
         { label: 'Admin', onClick: () => go('/admin'), testid: 'footer-admin' },
       ],
     },
@@ -68,6 +76,7 @@ export default function Footer() {
   const socials = [
     { label: 'Instagram', href: siteConfig.social.instagram, Icon: Instagram, testid: 'social-instagram' },
     siteConfig.social.facebook && { label: 'Facebook', href: siteConfig.social.facebook, Icon: Facebook, testid: 'social-facebook' },
+    siteConfig.social.x && { label: 'X', href: siteConfig.social.x, Icon: XIcon, testid: 'social-x' },
     siteConfig.social.youtube && { label: 'YouTube', href: siteConfig.social.youtube, Icon: Youtube, testid: 'social-youtube' },
   ].filter(Boolean);
 
@@ -110,7 +119,7 @@ export default function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-5">
             {cols.map((col) => (
               <div key={col.title}>
-                <h4 className="font-display text-[13px] font-extrabold uppercase tracking-[0.2em] text-white">{col.title}</h4>
+                <h4 className="font-body text-[13px] font-extrabold uppercase tracking-[0.2em] text-white">{col.title}</h4>
                 <ul className="mt-4 flex flex-col gap-2.5">
                   {col.links.map((l) => (
                     <li key={l.label}>
@@ -131,10 +140,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-xs sm:flex-row">
-          <p>© {new Date().getFullYear()} {siteConfig.name} · {siteConfig.domain}</p>
-          <p className="font-editorial italic text-gold/80">{siteConfig.tagline}</p>
-          <p>Crafted with care in Amritsar, Punjab</p>
+        <div className="mt-14 border-t border-white/10 pt-7 text-center text-xs">
+          <p className="font-editorial text-sm italic text-gold/80">{siteConfig.tagline}</p>
+          <p className="mt-2">
+            © 2026 Prime Journey INDIA. All Rights Reserved. · Website by{' '}
+            <a data-testid="footer-credit" href={siteConfig.credit.url} target="_blank" rel="noopener noreferrer" className="font-bold text-gold transition-colors duration-200 hover:text-saffron">
+              {siteConfig.credit.label}
+            </a>
+          </p>
         </div>
       </div>
     </footer>

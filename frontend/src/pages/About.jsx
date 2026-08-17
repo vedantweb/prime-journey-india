@@ -1,7 +1,7 @@
 import { ArrowRight, Eye, Heart, Map, Target } from 'lucide-react';
 import { aboutHeroImage } from '../data/destinations';
 import { leadership, story } from '../data/company';
-import { MonogramAvatar } from '../components/Leadership';
+import PersonImage from '../components/PersonImage';
 import { Reveal, SectionHeading } from '../components/Section';
 import { scrollToId } from '../components/Header';
 
@@ -75,7 +75,7 @@ export default function About() {
             {leadership.map((p, i) => (
               <Reveal key={p.id} delay={i * 0.1}>
                 <div data-testid={`about-leader-${p.id}`} className="flex h-full flex-col items-center rounded-3xl bg-white p-9 text-center shadow-[0_10px_40px_rgba(6,24,43,0.07)]">
-                  <MonogramAvatar initials={p.initials} tone={p.tone} testid={`about-avatar-${p.id}`} />
+                  <PersonImage imageKey={p.imageKey} initials={p.initials} tone={p.tone} testid={`about-avatar-${p.id}`} />
                   <h3 className="mt-6 font-display text-xl font-extrabold text-ocean">{p.name}</h3>
                   <span className="mt-2 rounded-full bg-saffron/15 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-[0.2em] text-saffron">{p.role}</span>
                   <p className="mt-4 text-sm leading-relaxed text-ink/60">{p.note}</p>

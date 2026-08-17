@@ -8,9 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+        display: ['"Playfair Display"', 'serif'],
         body: ['Manrope', 'sans-serif'],
-        editorial: ['"DM Serif Display"', 'serif'],
+        editorial: ['"Cormorant Garamond"', 'serif'],
       },
       colors: {
         ocean: {
