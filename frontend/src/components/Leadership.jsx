@@ -19,7 +19,7 @@ export default function Leadership() {
         <SectionHeading
           eyebrow="The Team"
           title="Meet The People Behind Prime Journey India"
-          sub="A family-run travel house from Amritsar — every journey passes through our own hands."
+          sub=""
           align="center"
         />
         <div className="mt-16 grid gap-6 md:grid-cols-3">

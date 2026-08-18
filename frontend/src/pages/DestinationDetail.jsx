@@ -1,7 +1,8 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, CalendarCheck, Check, MapPin } from 'lucide-react';
 import { destinations } from '../data/destinations';
-import { packages } from '../data/packages';
+import { packages as staticPackages } from '../data/packages';
+import usePackagePrices from '../hooks/usePackagePrices';
 import { experiences } from '../data/experiences';
 import { Reveal } from '../components/Section';
 import { inr } from '../components/PriceCounter';
@@ -11,6 +12,7 @@ export default function DestinationDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { openBooking } = useUI();
+  const packages = usePackagePrices();
   const d = destinations.find((x) => x.id === id);
 
   if (!d) {

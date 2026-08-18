@@ -1,10 +1,32 @@
 import PriceCounter, { inr } from './PriceCounter';
+import { useEffect, useState } from 'react';
 import { tornOffer } from '../data/packages';
 import { useUI } from '../context/UIContext';
 import { Reveal } from './Section';
 import { ArrowRight } from 'lucide-react';
 
 export default function TornPaperOffer() {
+  const [offerPrices, setOfferPrices] = useState({
+    from: tornOffer.priceFrom,
+    to: tornOffer.priceTo,
+  });
+
+  useEffect(() => {
+    const API = `${process.env.REACT_APP_BACKEND_URL || ''}/api`;
+
+    fetch(`${API}/public/seasonal-offer`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) {
+          setOfferPrices({
+            from: Number(data.price_from),
+            to: Number(data.price_to),
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const { openBooking } = useUI();
   return (
     <section data-testid="section-offer" className="relative overflow-hidden py-24 sm:py-32">
@@ -35,11 +57,11 @@ export default function TornPaperOffer() {
               </h3>
               <div className="mt-6 flex items-end justify-center gap-4">
                 <span data-testid="offer-price-from" className="pb-2 text-lg font-semibold text-ink/40 line-through decoration-coral decoration-2">
-                  {inr(tornOffer.priceFrom)}
+                  {inr(offerPrices.from)}
                 </span>
                 <PriceCounter
-                  from={tornOffer.priceFrom}
-                  to={tornOffer.priceTo}
+                  from={offerPrices.from}
+                  to={offerPrices.to}
                   testid="offer-price-counter"
                   className="font-display text-5xl font-extrabold tracking-tight text-saffron sm:text-6xl"
                 />

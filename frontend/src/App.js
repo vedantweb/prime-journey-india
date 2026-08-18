@@ -12,6 +12,7 @@ import FeedbackModal from './components/FeedbackModal';
 import LegalModal from './components/LegalModal';
 import Home from './pages/Home';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import DestinationDetail from './pages/DestinationDetail';
 import PackageDetail from './pages/PackageDetail';
@@ -56,6 +57,7 @@ function Shell() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/destinations/:id" element={<DestinationDetail />} />
           <Route path="/packages/:id" element={<PackageDetail />} />

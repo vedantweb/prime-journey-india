@@ -54,6 +54,20 @@ export const authService = {
   current() {
     return read(SESSION_KEY, null);
   },
+  updateContent(body) {
+    return apiCall('/admin/content', {
+      method: 'PUT',
+      body,
+      token: adminService.session()?.token,
+    });
+  },
+  replyToFeedback(id, text) {
+    return apiCall(`/admin/feedback/${id}/reply`, {
+      method: 'POST',
+      body: { text },
+      token: adminService.session()?.token,
+    });
+  },
   logout() {
     localStorage.removeItem(SESSION_KEY);
   },
@@ -134,6 +148,218 @@ export const adminService = {
   },
   enquiries() {
     return apiCall('/admin/enquiries', { token: adminService.session()?.token });
+  },
+  packages() {
+    return apiCall('/admin/packages', {
+      token: adminService.session()?.token,
+    });
+  },
+  updateEnquiryStatus(id, status) {
+    return apiCall(`/admin/enquiries/${id}/status`, {
+      method: 'PUT',
+      token: adminService.session()?.token,
+      body: { status },
+    });
+  },
+
+  updatePackagePrice(id, priceFrom, priceTo, saved) {
+    return apiCall(`/admin/packages/${id}/price`, {
+      method: 'PUT',
+      token: adminService.session()?.token,
+      body: {
+        price_from: Number(priceFrom),
+        price_to: Number(priceTo),
+        saved: Number(saved),
+      },
+    });
+  },
+  seasonalOffer() {
+    return apiCall('/admin/seasonal-offer', {
+      token: adminService.session()?.token,
+    });
+  },
+
+  updateSeasonalOffer(priceFrom, priceTo) {
+    return apiCall('/admin/seasonal-offer', {
+      method: 'PUT',
+      token: adminService.session()?.token,
+      body: {
+        price_from: Number(priceFrom),
+        price_to: Number(priceTo),
+      },
+    });
+  },
+  images() {
+    return apiCall('/admin/images', {
+      token: adminService.session()?.token,
+    });
+  },
+
+  uploadImage(imageKey, file) {
+    const form = new FormData();
+    form.append('imageKey', imageKey);
+    form.append('file', file);
+
+    return fetch(`${API}/admin/images`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${adminService.session()?.token}`,
+      },
+      body: form,
+    }).then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.detail || 'Image upload failed.');
+      }
+      return data;
+    });
+  },
+
+  trips() {
+    return apiCall('/admin/trips', {
+      token: adminService.session()?.token,
+    });
+  },
+
+  createTrip(data) {
+    return apiCall('/admin/trips', {
+      method: 'POST',
+      token: adminService.session()?.token,
+      body: data,
+    });
+  },
+
+  tripPhotos(tripId) {
+    return apiCall(`/admin/trips/${tripId}/photos`, {
+      token: adminService.session()?.token,
+    });
+  },
+
+  uploadTripPhoto(tripId, file, title = '') {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('title', title);
+
+    return fetch(`${API}/admin/trips/${tripId}/photos`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${adminService.session()?.token}`,
+      },
+      body: form,
+    }).then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.detail || 'Trip photo upload failed.');
+      }
+      return data;
+    });
+  },
+
+  deleteTrip(tripId) {
+    return apiCall(`/admin/trips/${tripId}`, {
+      method: 'DELETE',
+      token: adminService.session()?.token,
+    });
+  },
+
+  deleteTripPhoto(tripId, imageId) {
+    return apiCall(`/admin/trips/${tripId}/photos/${imageId}`, {
+      method: 'DELETE',
+      token: adminService.session()?.token,
+    });
+  },
+
+  tripImages() {
+    return apiCall('/admin/trip-images', {
+      token: adminService.session()?.token,
+    });
+  },
+
+  adminTrips() {
+    return apiCall('/admin/trips', {
+      token: adminService.session()?.token,
+    });
+  },
+
+  createTrip(data) {
+    return apiCall('/admin/trips', {
+      method: 'POST',
+      token: adminService.session()?.token,
+      body: data,
+    });
+  },
+
+  deleteTrip(id) {
+    return apiCall(`/admin/trips/${id}`, {
+      method: 'DELETE',
+      token: adminService.session()?.token,
+    });
+  },
+
+  tripPhotos(tripId) {
+    return apiCall(`/admin/trips/${tripId}/photos`, {
+      token: adminService.session()?.token,
+    });
+  },
+
+  uploadTripPhoto(tripId, file, title = '') {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('title', title);
+
+    return fetch(`${API}/admin/trips/${tripId}/photos`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${adminService.session()?.token}`,
+      },
+      body: form,
+    }).then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Trip photo upload failed.');
+      }
+
+      return data;
+    });
+  },
+
+  deleteTripPhoto(tripId, imageId) {
+    return apiCall(`/admin/trips/${tripId}/photos/${imageId}`, {
+      method: 'DELETE',
+      token: adminService.session()?.token,
+    });
+  },
+
+  uploadTripImage(file, title = '') {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('title', title);
+
+    return fetch(`${API}/admin/trip-images`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${adminService.session()?.token}`,
+      },
+      body: form,
+    }).then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.detail || 'Trip image upload failed.');
+      }
+      return data;
+    });
+  },
+
+  content() {
+    return apiCall('/admin/content', {
+      token: adminService.session()?.token,
+    });
+  },
+  feedback() {
+    return apiCall('/admin/feedback', {
+      token: adminService.session()?.token,
+    });
   },
   settings() {
     return apiCall('/admin/settings', { token: adminService.session()?.token });

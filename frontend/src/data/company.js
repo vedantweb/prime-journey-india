@@ -48,8 +48,8 @@ export const leadership = [
     role: 'Co-Founder',
     initials: 'AD',
     tone: 'saffron',
-    imageKey: 'cofounder1',
-    note: 'Shapes every itinerary with an eye for detail — routes, stays and moments that feel effortless to the traveller.',
+    imageKey: 'cofounder2',
+    note: 'Keeps every journey connected — planning, booking and on-trip support handled by one steady hand.',
   },
   {
     id: 'dheeraj',
@@ -57,8 +57,8 @@ export const leadership = [
     role: 'Co-Founder',
     initials: 'DD',
     tone: 'turq',
-    imageKey: 'cofounder2',
-    note: 'Keeps every journey connected — planning, booking and on-trip support handled by one steady hand.',
+    imageKey: 'cofounder1',
+    note: 'Shapes every itinerary with an eye for detail — routes, stays and moments that feel effortless to the traveller.',
   },
 ];
 

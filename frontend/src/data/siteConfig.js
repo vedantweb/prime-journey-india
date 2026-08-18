@@ -39,20 +39,20 @@ export const siteConfig = {
 // Drop the real files into frontend/public/assets/ — every location
 // (homepage, About, admin welcome, admin dashboard) updates automatically.
 export const assets = {
-  logo: '/assets/logo.png',
-  founder: '/assets/founder.jpeg',
-  cofounder1: '/assets/cofounder1.jpeg',
-  cofounder2: '/assets/cofounder2.jpeg',
+  logo: '/images/logo.webp',
+  founder: '/images/founder.jpeg',
+  cofounder1: '/images/cofounder2.jpeg',
+  cofounder2: '/images/cofounder1.jpeg',
 };
 
 export const navLinks = [
+  { label: 'About', target: '/about' },
   { label: 'Destinations', target: 'destinations' },
   { label: 'Holidays', target: 'holidays' },
   { label: 'Experiences', target: 'experiences' },
   { label: 'Packages', target: 'packages' },
   { label: 'Customize', target: 'customize' },
   { label: 'Feedback', action: 'feedback' },
-  { label: 'About', target: '/about' },
 ];
 
 export const img = (id, w = 1600) =>

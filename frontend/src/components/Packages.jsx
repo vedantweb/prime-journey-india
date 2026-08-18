@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, MapPin } from 'lucide-react';
-import { packages } from '../data/packages';
+import { packages as staticPackages } from '../data/packages';
+import usePackagePrices from '../hooks/usePackagePrices';
 import PriceCounter, { inr } from './PriceCounter';
 import { Reveal, SectionHeading } from './Section';
 import { useUI } from '../context/UIContext';
@@ -19,7 +20,7 @@ function PackageCard({ pkg, onOpen, onBook }) {
           <Clock size={12} /> {pkg.duration}
         </span>
         <span className="absolute right-4 top-4 rounded-full bg-saffron px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-ocean-deep">
-          Save {inr(pkg.priceFrom - pkg.priceTo)}
+          You Saved {inr(pkg.saved ?? (pkg.priceFrom - pkg.priceTo))}
         </span>
       </div>
       <div className="p-6">
@@ -63,6 +64,7 @@ function PackageCard({ pkg, onOpen, onBook }) {
 
 export default function Packages() {
   const { openBooking } = useUI();
+  const packages = usePackagePrices();
   const navigate = useNavigate();
   const trackRef = useRef(null);
   const scroll = (dir) => trackRef.current?.scrollBy({ left: dir * 380, behavior: 'smooth' });

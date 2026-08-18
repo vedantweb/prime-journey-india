@@ -9,6 +9,7 @@ import { scrollToId } from './Header';
 import { useUI } from '../context/UIContext';
 import PriceCounter, { inr } from './PriceCounter';
 import SearchBar from './SearchBar';
+import HomeEaseBand from './HomeEaseBand';
 
 const DURATION = 9000;
 
@@ -19,10 +20,27 @@ const TINTS = {
 };
 
 const textContainer = { hidden: {}, show: { transition: { staggerChildren: 0.13, delayChildren: 0.45 } } };
-const clipUp = { hidden: { y: '115%' }, show: { y: '0%', transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } } };
+const clipUp = { hidden: { y: '-115%', opacity: 0 }, show: { y: '0%', opacity: 1, transition: { duration: 0.95, ease: [0.22, 1, 0.36, 1] } } };
 const fadeUp = { hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } };
 
+
+function preloadHeroImages() {
+  heroSlides.forEach((slide) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.fetchPriority = slide.key === heroSlides[0].key
+      ? "high"
+      : "auto";
+    img.src = slide.image;
+  });
+}
+
 export default function Hero() {
+  useEffect(() => {
+    preloadHeroImages();
+  }, []);
+
+
   const [index, setIndex] = useState(0);
   const [prev, setPrev] = useState(null);
   const { openBooking } = useUI();
@@ -67,20 +85,24 @@ export default function Hero() {
       key={incoming ? s.key : `${s.key}-out`}
       className="absolute inset-0"
       style={{ zIndex: z }}
-      initial={incoming ? { opacity: 0, scale: 1.07 } : { opacity: 1, scale: 1 }}
-      animate={incoming ? { opacity: 1, scale: 1 } : { opacity: 0.4, scale: 0.96, x: '-1.5%' }}
-      transition={{ duration: 1.6, ease: [0.65, 0, 0.25, 1] }}
+      initial={incoming ? { opacity: 0, scale: 1.025 } : { opacity: 1, scale: 1.01 }}
+      animate={incoming ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.02 }}
+      transition={{ duration: 1.25, ease: [0.4, 0, 0.2, 1] }}
     >
       <motion.div className="absolute inset-0" style={{ x: px, y: py, scale: 1.04 }}>
         <img
           src={s.image}
           alt={s.alt}
           className={`h-full w-full object-cover ${incoming ? 'hero-zoom' : ''}`}
-          loading={s.key === 'rajasthan' ? 'eager' : 'lazy'}
-          fetchPriority={s.key === 'rajasthan' ? 'high' : 'auto'}
+          loading={s.key === heroSlides[0].key ? 'eager' : 'lazy'}
+          fetchPriority={s.key === heroSlides[0].key ? 'high' : 'auto'}
+          decoding="async"
+          width="2000"
+          height="1125" 
         />
       </motion.div>
       <div className={`absolute inset-0 bg-gradient-to-b ${TINTS[s.theme]}`} />
+      <div className="pointer-events-none absolute left-0 top-[28%] h-[48%] w-[68%] bg-gradient-to-b from-black/42 via-black/22 to-transparent blur-[18px]" />
       <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ocean-deep/55 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-ocean-deep/70 via-ocean-deep/10 to-transparent" />
       {incoming && (
@@ -101,9 +123,23 @@ export default function Hero() {
       {prev !== null && renderSlide(heroSlides[prev], 0, false)}
       {renderSlide(slide, 10, true)}
 
-      {/* text + torn paper offer */}
-      <div className="absolute inset-0 z-30 flex items-center pt-8 sm:pt-0">
-        <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+      {/* cinematic blue campaign card */}
+      <motion.div
+        key={`panel-${slide.key}`}
+        initial={{ y: "-28%", opacity: 0 }}
+        animate={{ y: "0%", opacity: 1 }}
+        exit={{ y: "-14%", opacity: 0 }}
+        transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none absolute left-[2.5%] top-[3%] z-20 h-[43%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.5rem] bg-[#0875D1]/80 shadow-[18px_20px_50px_rgba(0,31,74,0.14)] sm:top-[2.5%] sm:h-[48%] sm:w-[36vw] sm:min-w-[390px]"
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.16),transparent_34%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/10 to-transparent" />
+      </motion.div>
+
+      {/* hero copy */}
+      <div className="pointer-events-none absolute inset-0 z-30">
+        <div className="mx-auto h-full w-full max-w-7xl px-5 sm:px-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.key}
@@ -111,100 +147,140 @@ export default function Hero() {
               initial="hidden"
               animate="show"
               exit={{ opacity: 0, y: -18, transition: { duration: 0.35 } }}
-              className="max-w-3xl"
+              className="pointer-events-auto absolute left-5 top-[11%] z-40 flex w-[calc(100vw-4rem)] max-w-[430px] max-h-[52%] overflow-hidden flex-col sm:left-8 sm:top-[12%] sm:w-[min(430px,calc(42vw-6rem))] lg:left-[clamp(2rem,5vw,5.5rem)]"
             >
               <motion.p
                 variants={fadeUp}
                 data-testid="hero-eyebrow"
-                className="mb-4 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.35em] text-gold sm:text-xs"
+                className="mb-4 flex items-center gap-3 font-body text-xs font-extrabold uppercase tracking-[0.32em] text-[#FFD36A] sm:text-sm"
               >
-                <span className="h-px w-10 bg-gold" /> {slide.eyebrow}
+                <span className="h-px w-10 bg-gold" />
+                {slide.eyebrow}
               </motion.p>
-              <h1 className="font-display font-bold leading-[0.95] tracking-tight text-white text-shadow-hero">
-                <span className="block overflow-hidden">
-                  <motion.span variants={clipUp} className="block font-body text-lg font-bold uppercase tracking-[0.3em] text-white/85 sm:text-xl">
-                    {firstWord}
-                  </motion.span>
-                </span>
-                <span className="block overflow-hidden">
-                  <motion.span
-                    variants={clipUp}
-                    data-testid="hero-headline"
-                    className="block text-6xl sm:text-7xl lg:text-8xl"
-                  >
-                    {restWords.join(' ')}
-                  </motion.span>
-                </span>
+
+              <h1 className="font-display font-bold leading-[0.92] tracking-tight text-white text-shadow-hero">
+                {slide.headlineLines ? (
+                  slide.headlineLines.map((line, li) => (
+                    <span key={line} className="block overflow-hidden">
+                      <motion.span
+                        variants={clipUp}
+                        data-testid={li === 0 ? 'hero-headline' : undefined}
+                        className={`block text-4xl sm:text-5xl lg:text-6xl ${li === slide.headlineLines.length - 1 ? 'italic text-[#FFD36A]' : ''}`}
+                      >
+                        {line}
+                      </motion.span>
+                    </span>
+                  ))
+                ) : (
+                  <>
+                    <span className="block overflow-hidden">
+                      <motion.span
+                        variants={clipUp}
+                        className="block font-body text-lg font-bold uppercase tracking-[0.3em] text-white/90 sm:text-xl"
+                      >
+                        {firstWord}
+                      </motion.span>
+                    </span>
+
+                    <span className="block overflow-hidden">
+                      <motion.span
+                        variants={clipUp}
+                        data-testid="hero-headline"
+                        className="block text-5xl sm:text-6xl lg:text-7xl"
+                      >
+                        {restWords.join(' ')}
+                      </motion.span>
+                    </span>
+                  </>
+                )}
               </h1>
+
               <motion.p
                 variants={fadeUp}
                 data-testid="hero-sub"
-                className="mt-5 max-w-xl font-editorial text-xl italic text-white/90 sm:text-2xl"
+                className="mt-4 max-w-[420px] font-body text-base font-semibold leading-relaxed text-white sm:text-lg lg:text-xl"
               >
                 {slide.sub}
               </motion.p>
-              <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3.5">
+
+              <motion.div
+                variants={fadeUp}
+                className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center"
+              >
                 <button
                   data-testid="hero-cta-primary"
                   onClick={() => scrollToId('destinations')}
-                  className="btn-arrow group flex items-center gap-2 rounded-full bg-saffron px-7 py-3.5 font-body text-sm font-bold text-ocean-deep shadow-[0_10px_30px_rgba(255,153,51,0.45)] transition-colors duration-300 hover:bg-coral hover:text-white"
+                  className="btn-arrow group flex items-center gap-1.5 rounded-full bg-saffron px-4 py-3 text-xs sm:gap-2 sm:px-7 sm:py-3.5 sm:text-sm font-body text-sm font-bold text-ocean-deep shadow-[0_10px_30px_rgba(255,153,51,0.45)] transition-colors duration-300 hover:bg-coral hover:text-white"
                 >
-                  {slide.headline} <ArrowRight size={16} />
+                  {slide.ctaPrimary || slide.headline} <ArrowRight size={16} />
                 </button>
+
                 <button
                   data-testid="hero-cta-secondary"
                   onClick={() => scrollToId('packages')}
-                  className="rounded-full border border-white/50 bg-white/10 px-7 py-3.5 font-body text-sm font-bold text-white backdrop-blur-sm transition-colors duration-300 hover:border-white hover:bg-white/20"
+                  className="rounded-full border border-white/60 bg-white/10 px-4 py-3 font-body text-xs font-bold sm:px-7 sm:py-3.5 sm:text-sm text-white backdrop-blur-sm transition-colors duration-300 hover:border-white hover:bg-white/20"
                 >
                   View Packages
                 </button>
               </motion.div>
-
-              {/* torn-paper offer inside the hero */}
-              {offer && (
-                <motion.div variants={fadeUp} className="mt-9 sm:absolute sm:bottom-[7.5rem] sm:right-8 sm:mt-0 sm:w-[290px] lg:right-12">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={slide.key}
-                      initial={{ opacity: 0, y: 26, rotate: -5 }}
-                      animate={{ opacity: 1, y: 0, rotate: -2 }}
-                      exit={{ opacity: 0, y: -14, rotate: 2, transition: { duration: 0.3 } }}
-                      transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                      data-testid="hero-offer"
-                      className="torn-paper max-w-[300px] px-6 py-6"
-                    >
-                      <p className="text-[9px] font-extrabold uppercase tracking-[0.35em] text-coral">Season Offer</p>
-                      <p className="mt-1.5 font-display text-lg font-bold uppercase leading-tight text-ocean">{offer.name}</p>
-                      <div className="mt-2 flex items-end gap-2.5">
-                        <span className="text-[13px] font-semibold text-ink/40 line-through decoration-coral decoration-2">{inr(offer.priceFrom)}</span>
-                        <PriceCounter
-                          key={slide.key}
-                          from={offer.priceFrom}
-                          to={offer.priceTo}
-                          duration={1.9}
-                          testid="hero-offer-price"
-                          className="font-body text-2xl font-extrabold tracking-tight text-saffron"
-                        />
-                      </div>
-                      <p className="mt-0.5 text-[11px] font-bold text-ink/55">{offer.duration}</p>
-                      <Link
-                        data-testid="hero-offer-link"
-                        to={`/packages/${offer.id}`}
-                        className="btn-arrow group mt-3 inline-flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-widest text-ocean transition-colors duration-200 hover:text-coral"
-                      >
-                        View Journey <ArrowRight size={13} />
-                      </Link>
-                    </motion.div>
-                  </AnimatePresence>
-                </motion.div>
-              )}
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
+      {/* independent hero torn-paper offer */}
+      {offer && (
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`hero-offer-${slide.key}`}
+            initial={{ opacity: 0, y: 24, rotate: -5 }}
+            animate={{ opacity: 1, y: 0, rotate: -2 }}
+            exit={{ opacity: 0, y: -14, rotate: 2 }}
+            transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-1/2 top-[48%] z-50 w-[220px] -translate-x-1/2 sm:left-[45%] sm:top-[25%] sm:w-[340px] sm:-translate-y-1/2"
+          >
+            <div className="torn-paper px-4 py-4 sm:px-5 sm:py-6">
+              <p className="text-[8px] font-extrabold uppercase tracking-[0.28em] text-coral sm:text-[10px]">
+                Season Offer
+              </p>
+
+              <p className="mt-1 font-display text-base font-bold uppercase leading-tight text-ocean sm:mt-1.5 sm:text-lg">
+                {offer.name}
+              </p>
+
+              <div className="mt-2 flex items-end gap-2.5">
+                <span className="text-[13px] font-semibold text-ink/40 line-through decoration-coral decoration-2">
+                  {inr(offer.priceFrom)}
+                </span>
+
+                <PriceCounter
+                  key={`price-${slide.key}`}
+                  from={offer.priceFrom}
+                  to={offer.priceTo}
+                  duration={1.9}
+                  testid="hero-offer-price"
+                  className="font-body text-3xl font-extrabold tracking-tight text-saffron sm:text-4xl"
+                />
+              </div>
+
+              <p className="mt-1 text-[9px] font-bold text-ink/55 sm:text-[11px]">
+                {offer.duration}
+              </p>
+
+              <Link
+                data-testid="hero-offer-link"
+                to={`/packages/${offer.id}`}
+                className="btn-arrow group mt-3 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-ocean transition-colors duration-200 hover:text-coral sm:mt-5 sm:text-sm"
+              >
+                View Journey <ArrowRight size={13} />
+              </Link>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      )}
+
       {/* search */}
-      <div className="absolute inset-x-0 bottom-6 z-30 flex justify-center px-5">
+      <div className="absolute inset-x-0 bottom-[11.5rem] z-40 flex justify-center px-4 sm:bottom-[16rem] sm:px-5">
         <SearchBar className="w-full max-w-[560px]" />
       </div>
 
@@ -233,6 +309,7 @@ export default function Hero() {
           </button>
         ))}
       </div>
+      <HomeEaseBand />
     </section>
   );
 }

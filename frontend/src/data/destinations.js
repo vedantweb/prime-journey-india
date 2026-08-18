@@ -4,6 +4,18 @@ import { img } from './siteConfig';
 // offerPackage links the torn-paper price card to centralized package data.
 export const heroSlides = [
   {
+    key: 'master',
+    eyebrow: 'Travel with Prime Journey India',
+    headline: 'Save More. Travel More. Live More.',
+    headlineLines: ['Save More.', 'Travel More.', 'Live More.'],
+    sub: 'Your perfect Indian escape, without the unnecessary spend.',
+    image: '/assets/hero-family.webp',
+    alt: 'A happy Indian family with suitcases, excited to leave for their holiday',
+    theme: 'warm',
+    effects: ['sunrays', 'birds', 'clouds'],
+    ctaPrimary: 'Explore India',
+  },
+  {
     key: 'rajasthan',
     eyebrow: 'Royal India',
     headline: 'Explore Rajasthan',
@@ -16,13 +28,13 @@ export const heroSlides = [
   },
   {
     key: 'pangong',
-    eyebrow: 'Ladakh',
-    headline: 'Explore Pangong',
+    eyebrow: 'Pangong Lake',
+    headline: 'Explore Kashmir',
     sub: 'Where the mountains meet a sky-blue sea.',
     image: img('1600356033695-a003690a6351', 2000),
     alt: 'Vibrant turquoise waters of Pangong Lake beneath Ladakhi peaks',
     theme: 'cool',
-    effects: ['clouds', 'mist', 'droplet', 'shimmer'],
+    effects: ['clouds', 'mist', 'droplet'],
     offerPackage: 'ladakh-explorer',
   },
   {
@@ -30,10 +42,10 @@ export const heroSlides = [
     eyebrow: 'The Holy City',
     headline: 'Explore Amritsar',
     sub: 'A city of faith, history and unforgettable moments.',
-    image: img('1621377099913-ac1ec4848e52', 2000),
+    image: '/images/golden-temple-hero.webp',
     alt: 'Sri Harmandir Sahib (Golden Temple) reflected in the Amrit Sarovar',
     theme: 'gold',
-    effects: ['sunrays', 'birds', 'shimmer', 'clouds'],
+    effects: ['sunrays', 'birds', 'clouds'],
     offerPackage: 'amritsar-heritage',
   },
   {
@@ -63,7 +75,7 @@ export const heroSlides = [
     eyebrow: 'Amritsar',
     headline: 'Explore Wagah Border',
     sub: 'Thirty minutes of pure electricity at the beating retreat.',
-    image: img('1659763344736-7ea8ed3d1f5e', 2000),
+    image: '/images/wagah-border-hero.webp',
     alt: 'Crowd roaring in golden evening light at the Wagah Border ceremony',
     theme: 'warm',
     effects: ['dust', 'birds', 'bunting', 'sunrays'],

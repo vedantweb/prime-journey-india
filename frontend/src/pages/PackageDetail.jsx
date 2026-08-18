@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, BedDouble, CalendarCheck, Check, Minus, UtensilsCrossed, Car, Info } from 'lucide-react';
-import { packages } from '../data/packages';
+import { packages as staticPackages } from '../data/packages';
+import usePackagePrices from '../hooks/usePackagePrices';
 import { Reveal } from '../components/Section';
 import PriceCounter, { inr } from '../components/PriceCounter';
 import { siteConfig } from '../data/siteConfig';
@@ -10,6 +11,7 @@ export default function PackageDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { openBooking } = useUI();
+  const packages = usePackagePrices();
   const pkg = packages.find((x) => x.id === id);
 
   if (!pkg) {
@@ -135,6 +137,9 @@ export default function PackageDetail() {
                   <PriceCounter from={pkg.priceFrom} to={pkg.priceTo} testid="package-detail-price" className="font-body text-4xl font-extrabold text-gold" />
                 </div>
                 <p className="mt-1 text-xs font-semibold text-white/55">per person · {pkg.duration}</p>
+                <p className="mt-2 text-sm font-extrabold text-saffron">
+                  You Saved {inr(pkg.saved ?? (pkg.priceFrom - pkg.priceTo))}
+                </p>
                 <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6">
                   {facts.map(({ Icon, label, value }) => (
                     <div key={label} className="flex items-start gap-3">

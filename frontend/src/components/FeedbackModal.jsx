@@ -17,8 +17,8 @@ export default function FeedbackModal() {
   const submit = async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
-    if (!data.name || !data.message) {
-      toast.error('Please share your name and feedback.');
+    if (!data.name || !data.phone || !data.email || !data.message) {
+      toast.error('Please enter your name, phone, email and feedback.');
       return;
     }
     setBusy(true);
@@ -58,11 +58,36 @@ export default function FeedbackModal() {
             <p className="mt-1.5 text-sm text-ink/55"> travelled with us, or just browsing — we read every word.</p>
             <form data-testid="feedback-form" onSubmit={submit} className="mt-6 flex flex-col gap-4">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Name" testid="ffield-name">
-                  <input name="name" data-testid="feedback-name" placeholder="Your name" className={inputCls} />
+                <Field label="Name *" testid="ffield-name">
+                  <input
+                    name="name"
+                    data-testid="feedback-name"
+                    required
+                    placeholder="Your name"
+                    className={inputCls}
+                  />
                 </Field>
-                <Field label="Phone / Email" testid="ffield-contact">
-                  <input name="contact" data-testid="feedback-contact" placeholder="Optional" className={inputCls} />
+
+                <Field label="Phone *" testid="ffield-phone">
+                  <input
+                    name="phone"
+                    type="tel"
+                    data-testid="feedback-phone"
+                    required
+                    placeholder="+91 XXXXX XXXXX"
+                    className={inputCls}
+                  />
+                </Field>
+
+                <Field label="Email *" testid="ffield-email">
+                  <input
+                    name="email"
+                    type="email"
+                    data-testid="feedback-email"
+                    required
+                    placeholder="you@example.com"
+                    className={inputCls}
+                  />
                 </Field>
               </div>
               <Field label="Your Feedback" testid="ffield-message">

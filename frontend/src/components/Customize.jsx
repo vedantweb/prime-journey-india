@@ -27,8 +27,8 @@ export default function Customize() {
     e.preventDefault();
     const f = new FormData(e.target);
     const data = Object.fromEntries(f.entries());
-    if (!data.destination || !data.travellers) {
-      toast.error('Please choose a destination and number of travellers.');
+    if (!data.name || !data.phone || !data.destination || !data.travellers) {
+      toast.error('Please enter your name, phone number, destination and number of travellers.');
       return;
     }
     setBusy(true);
@@ -76,8 +76,30 @@ export default function Customize() {
               </div>
             ) : (
               <form data-testid="customize-form" onSubmit={submit} className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Destination" testid="field-destination">
-                  <select name="destination" data-testid="input-destination" className={inputCls} defaultValue="">
+                <Field label="Name *" testid="field-name">
+                  <input
+                    name="name"
+                    data-testid="input-name"
+                    type="text"
+                    required
+                    placeholder="Your full name"
+                    className={inputCls}
+                  />
+                </Field>
+
+                <Field label="Phone Number *" testid="field-phone">
+                  <input
+                    name="phone"
+                    data-testid="input-phone"
+                    type="tel"
+                    required
+                    placeholder="Your phone number"
+                    className={inputCls}
+                  />
+                </Field>
+
+                <Field label="Destination *" testid="field-destination">
+                  <select name="destination" data-testid="input-destination" required className={inputCls} defaultValue="">
                     <option value="" disabled>Choose a destination</option>
                     {destinations.map((d) => (
                       <option key={d.id} value={d.name}>{d.name}</option>
@@ -89,7 +111,7 @@ export default function Customize() {
                   <input name="dates" data-testid="input-dates" type="text" placeholder="e.g. 12 – 19 October" className={inputCls} />
                 </Field>
                 <Field label="Travellers" testid="field-travellers">
-                  <input name="travellers" data-testid="input-travellers" type="number" min="1" placeholder="2 adults" className={inputCls} />
+                  <input name="travellers" data-testid="input-travellers" required type="number" min="1" placeholder="2 adults" className={inputCls} />
                 </Field>
                 <Field label="Travel Style" testid="field-style">
                   <select name="style" data-testid="input-style" className={inputCls} defaultValue="">

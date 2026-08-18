@@ -38,7 +38,6 @@ export default function Home() {
       <WhyUs />
       <Reviews />
       <Leadership />
-      <HomeEaseBand />
       <Customize />
       <Contact />
     </>

@@ -67,8 +67,8 @@ export default function About() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Leadership"
-            title="The Dhir Family"
-            sub="One family, one promise — every journey planned like it is our own."
+            title="Meet The People Behind Prime Journey India"
+            sub=""
             align="center"
           />
           <div className="mt-14 grid gap-6 md:grid-cols-3">

@@ -1,10 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X, CircleUserRound, MapPinned, Palmtree, Mountain, Luggage, SlidersHorizontal, MessageCircleMore, PhoneCall, Phone, Globe2 } from 'lucide-react';
 import Logo from './Logo';
 import { navLinks } from '../data/siteConfig';
 import { useUI } from '../context/UIContext';
+
+const navIcons = {
+  About: CircleUserRound,
+  Destinations: MapPinned,
+  Holidays: Palmtree,
+  Experiences: Mountain,
+  Packages: Luggage,
+  Customize: SlidersHorizontal,
+  Feedback: MessageCircleMore,
+  Contact: PhoneCall,
+};
 
 export const scrollToId = (id) => {
   const el = document.getElementById(id);
@@ -48,31 +59,37 @@ export default function Header() {
         scrolled ? 'border-ocean/10 bg-white/90 shadow-[0_8px_30px_rgba(6,24,43,0.08)] backdrop-blur-xl' : 'border-transparent bg-white/70 backdrop-blur-md'
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <button data-testid="nav-home" onClick={() => navigate('/')} className="shrink-0" aria-label="Prime Journey India home">
+
+
+      <div className="flex h-[76px] w-full items-center justify-between px-2 sm:px-4 lg:px-6">
+        <button data-testid="nav-home" onClick={() => navigate('/')} className="shrink-0 pl-0" aria-label="Prime Journey India home">
           <Logo />
         </button>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-6 xl:gap-7 lg:flex" aria-label="Primary">
           {navLinks.map((l) => (
             <button
               key={l.label}
               data-testid={`nav-${l.label.toLowerCase()}`}
               onClick={() => go(l)}
-              className={`link-underline font-body text-[13.5px] font-semibold tracking-wide text-ocean/80 transition-colors duration-200 hover:text-ocean ${
+              className={`link-underline group flex items-center gap-1.5 font-body text-[13.5px] font-semibold tracking-wide text-ocean/80 transition-colors duration-200 hover:text-ocean ${
                 l.target === '/about' && location.pathname === '/about' ? 'active text-ocean' : ''
               }`}
             >
-              {l.label}
+              {(() => {
+                const Icon = navIcons[l.label];
+                return Icon ? <Icon size={32} strokeWidth={1.9} className="shrink-0 text-saffron/85 transition-colors duration-200 group-hover:text-saffron" /> : null;
+              })()}
+              <span>{l.label}</span>
             </button>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 pr-0">
           <button
             data-testid="btn-book-now"
             onClick={() => openBooking()}
-            className="btn-arrow group flex items-center gap-1.5 rounded-full bg-saffron px-4 py-2 text-[13.5px] font-bold text-ocean-deep shadow-[0_6px_18px_rgba(255,153,51,0.4)] transition-colors duration-300 hover:bg-coral hover:text-white sm:px-5"
+            className="btn-arrow group flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-[13.5px] font-bold text-ocean-deep shadow-[0_6px_18px_rgba(255,153,51,0.4)] transition-colors duration-300 hover:bg-coral hover:text-white sm:px-5"
           >
             Book Now <ArrowRight size={15} />
           </button>
@@ -104,9 +121,13 @@ export default function Header() {
                   key={l.label}
                   data-testid={`nav-mobile-${l.label.toLowerCase()}`}
                   onClick={() => go(l)}
-                  className="border-b border-ocean/5 py-3.5 text-left font-display text-lg font-bold text-ocean last:border-0"
+                  className="flex items-center gap-3 border-b border-ocean/5 py-3.5 text-left font-display text-lg font-bold text-ocean last:border-0"
                 >
-                  {l.label}
+                  {(() => {
+                    const Icon = navIcons[l.label];
+                    return Icon ? <Icon size={18} strokeWidth={1.8} className="shrink-0 text-ocean/70" /> : null;
+                  })()}
+                  <span>{l.label}</span>
                 </button>
               ))}
             </div>
