@@ -25,14 +25,15 @@ const fadeUp = { hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0, transi
 
 
 function preloadHeroImages() {
-  heroSlides.forEach((slide) => {
-    const img = new Image();
-    img.decoding = "async";
-    img.fetchPriority = slide.key === heroSlides[0].key
-      ? "high"
-      : "auto";
-    img.src = slide.image;
-  });
+  // Only preload the first/master hero image.
+  // Other slides load lazily when they become active.
+  const first = heroSlides[0];
+  if (!first) return;
+
+  const img = new Image();
+  img.decoding = "async";
+  img.fetchPriority = "high";
+  img.src = first.image;
 }
 
 export default function Hero() {
@@ -89,16 +90,19 @@ export default function Hero() {
       animate={incoming ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.02 }}
       transition={{ duration: 1.25, ease: [0.4, 0, 0.2, 1] }}
     >
-      <motion.div className="absolute inset-0" style={{ x: px, y: py, scale: 1.04 }}>
+      <motion.div
+        className={`absolute inset-0 ${s.key === heroSlides[0].key ? '' : '-translate-y-[3%] scale-[1.04]'}`}
+        style={{ x: px, y: py, scale: 1.04 }}
+      >
         <img
           src={s.image}
           alt={s.alt}
-          className={`h-full w-full object-cover ${incoming ? 'hero-zoom' : ''}`}
+          className={`h-full w-full object-cover ${incoming ? 'hero-zoom' : ''} ${s.key === heroSlides[0].key ? '' : s.key === 'amritsar' ? 'saturate-[1.28] contrast-[1.06] brightness-[1.04]' : 'saturate-[1.12] contrast-[1.04]'}`}
           loading={s.key === heroSlides[0].key ? 'eager' : 'lazy'}
           fetchPriority={s.key === heroSlides[0].key ? 'high' : 'auto'}
           decoding="async"
           width="2000"
-          height="1125" 
+          height="1125"
         />
       </motion.div>
       <div className={`absolute inset-0 bg-gradient-to-b ${TINTS[s.theme]}`} />

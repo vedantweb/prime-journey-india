@@ -80,3 +80,15 @@ memory/test_credentials.md
 
 # Mobile development
 android-sdk/
+# Local environment files
+.env
+backend/.env
+frontend/.env
+
+# Local/generated files
+scripts/*.log
+
+# Image backups
+frontend/public/assets/*-original.webp
+frontend/public/assets/*-backup.webp
+frontend/public/images/hero-family.webp
