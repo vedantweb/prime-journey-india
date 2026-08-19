@@ -35,7 +35,7 @@ export default function HomeEaseBand() {
   return (
     <div
       data-testid="section-homeease"
-      className="absolute inset-x-0 bottom-0 z-30 w-full px-1.5 pb-1.5 sm:px-4 sm:pb-3">
+      className="relative z-10 w-full px-1.5 py-6 sm:px-4 sm:py-8">
         <div className="mx-auto w-full max-w-[1500px] overflow-hidden rounded-[1rem] border border-white/15 bg-ocean-deep/50 px-2 py-1 sm:px-3 sm:py-1 shadow-[0_6px_20px_rgba(0,0,0,0.12)] backdrop-blur-md sm:px-4 sm:py-2.5">
         
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-5">

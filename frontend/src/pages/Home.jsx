@@ -39,8 +39,8 @@ export default function Home() {
       <Reviews />
       <Leadership />
       <Customize />
-      <Contact />
       <HomeEaseBand />
+      <Contact />
     </>
   );
 }
