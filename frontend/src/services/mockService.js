@@ -143,6 +143,28 @@ export const adminService = {
       return null;
     }
   },
+  async changePassword(currentPassword, newPassword) {
+    const data = await apiCall('/admin/auth/change-password', {
+      method: 'POST',
+      body: {
+        current_password: currentPassword,
+        new_password: newPassword,
+      },
+      token: adminService.session()?.token,
+    });
+
+    const s = adminService.session();
+    if (s) {
+      const profile = {
+        ...(s.profile || {}),
+        mustChangePassword: false,
+      };
+      write(ADMIN_KEY, { token: s.token, profile });
+    }
+
+    return data;
+  },
+
   overview() {
     return apiCall('/admin/overview', { token: adminService.session()?.token });
   },

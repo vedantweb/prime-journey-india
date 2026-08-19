@@ -132,6 +132,7 @@ def public_profile(admin: dict) -> dict:
         "roleLabel": admin["role_label"],
         "imageKey": admin["image_key"],
         "permissions": admin["permissions"],
+        "mustChangePassword": admin.get("must_change_password", False),
     }
 
 bearer = HTTPBearer(auto_error=False)
@@ -188,7 +189,14 @@ async def admin_login(body: AdminLoginIn, request: Request):
         raise HTTPException(status_code=401, detail="Invalid alias or password.")
 
     await db.login_attempts.delete_one({"identifier": identifier})
-    return {"token": create_admin_token(admin), "profile": public_profile(admin)}
+
+    # Master is never forced to change password.
+    must_change = admin.get("key") != "master" and admin.get("must_change_password", False)
+
+    return {
+        "token": create_admin_token(admin),
+        "profile": {**public_profile(admin), "mustChangePassword": must_change},
+    }
 
 @api_router.get("/admin/auth/me")
 async def admin_me(admin: dict = Depends(get_current_admin)):
@@ -289,7 +297,10 @@ async def admin_change_password(
 
     await db.admins.update_one(
         {"_id": admin["_id"]},
-        {"$set": {"password_hash": hash_password(body.new_password)}},
+        {"$set": {
+            "password_hash": hash_password(body.new_password),
+            "must_change_password": False,
+        }},
     )
 
     return {"message": "Password changed successfully."}
@@ -888,6 +899,7 @@ async def startup():
             await db.admins.insert_one({
                 **spec,
                 "password_hash": hash_password(ADMIN_INITIAL_PASSWORD),
+                "must_change_password": spec["key"] != "master",
                 "created_at": datetime.now(timezone.utc).isoformat(),
             })
             logger.info("Seeded admin alias %s", spec["alias"])
@@ -895,6 +907,7 @@ async def startup():
             # Existing admin accounts keep their current password.
             # This is important because admins can now change their own passwords.
             updates = {
+                "must_change_password": existing.get("must_change_password", spec["key"] != "master"),
                 "permissions": spec["permissions"],
                 "image_key": spec["image_key"],
                 "display_name": spec["display_name"],

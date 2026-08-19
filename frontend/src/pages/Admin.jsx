@@ -83,6 +83,9 @@ export default function Admin() {
   const [profile, setProfile] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [tab, setTab] = useState('overview');
   const [overview, setOverview] = useState(null);
   const [enquiries, setEnquiries] = useState([]);
@@ -116,7 +119,7 @@ export default function Admin() {
     adminService.me().then((p) => {
       if (p) {
         setProfile(p);
-        setStage('welcome');
+        setStage(p.mustChangePassword ? 'change-password' : 'welcome');
       }
       setChecking(false);
     });
@@ -157,9 +160,51 @@ export default function Admin() {
     try {
       const p = await adminService.login(d.alias, d.password);
       setProfile(p);
-      setStage('welcome');
+      setStage(p.mustChangePassword ? 'change-password' : 'welcome');
     } catch (err) {
       setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const onChangePassword = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (newPassword.length < 8) {
+      setError('New password must be at least 8 characters.');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError('New passwords do not match.');
+      return;
+    }
+
+    if (currentPassword === newPassword) {
+      setError('New password must be different from the current password.');
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      await adminService.changePassword(currentPassword, newPassword);
+
+      const updatedProfile = {
+        ...profile,
+        mustChangePassword: false,
+      };
+
+      setProfile(updatedProfile);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setStage('welcome');
+      toast.success('Password changed successfully.');
+    } catch (err) {
+      setError(err.message || 'Could not change password.');
     } finally {
       setBusy(false);
     }
@@ -235,6 +280,114 @@ export default function Admin() {
                   className="mt-1 flex items-center justify-center gap-2 rounded-full bg-saffron py-3.5 font-body text-sm font-bold text-ocean-deep transition-colors duration-300 hover:bg-gold disabled:opacity-60"
                 >
                   {busy ? <Loader2 size={16} className="animate-spin" /> : <Lock size={15} />} {busy ? 'Verifying…' : 'Sign In Securely'}
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {stage === 'change-password' && profile && (
+          <motion.div
+            key="change-password"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="relative flex min-h-[85vh] items-center justify-center overflow-hidden px-5 py-16"
+          >
+            <img
+              src={heroSlides[0].image}
+              alt=""
+              className="hero-zoom absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-ocean-deep/75" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-md rounded-[2rem] border border-white/15 bg-ocean-deep/60 p-8 shadow-2xl backdrop-blur-xl sm:p-10"
+            >
+              <div className="flex justify-center">
+                <Logo dark />
+              </div>
+
+              <div className="mx-auto mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-saffron/15 text-gold">
+                <ShieldCheck size={28} />
+              </div>
+
+              <h1 className="mt-5 text-center font-display text-3xl font-bold text-white">
+                Change Your Password
+              </h1>
+
+              <p className="mt-2 text-center text-xs font-semibold leading-relaxed text-white/60">
+                For security, you must create a new password before entering the admin panel.
+              </p>
+
+              <form
+                onSubmit={onChangePassword}
+                className="mt-7 flex flex-col gap-4"
+              >
+                <label className="block">
+                  <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-[0.25em] text-gold">
+                    Current Password
+                  </span>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    autoComplete="current-password"
+                    required
+                    className={inputCls}
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-[0.25em] text-gold">
+                    New Password
+                  </span>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    autoComplete="new-password"
+                    minLength={8}
+                    required
+                    className={inputCls}
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-[0.25em] text-gold">
+                    Confirm New Password
+                  </span>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    autoComplete="new-password"
+                    minLength={8}
+                    required
+                    className={inputCls}
+                  />
+                </label>
+
+                {error && (
+                  <p className="rounded-xl bg-coral/15 px-4 py-3 text-center text-xs font-bold text-coral">
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={busy}
+                  className="mt-1 flex items-center justify-center gap-2 rounded-full bg-saffron py-3.5 font-body text-sm font-bold text-ocean-deep transition-colors duration-300 hover:bg-gold disabled:opacity-60"
+                >
+                  {busy ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <ShieldCheck size={16} />
+                  )}
+                  {busy ? 'Updating…' : 'Set New Password'}
                 </button>
               </form>
             </motion.div>
