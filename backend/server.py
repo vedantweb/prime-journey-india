@@ -959,15 +959,12 @@ cors_origins = [
     if origin.strip()
 ]
 
-logging.warning("PRODUCTION CORS_ORIGINS=%r", cors_origins)
-
-
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
     allow_origins=cors_origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 @app.on_event("shutdown")
