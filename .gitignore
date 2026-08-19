@@ -92,3 +92,4 @@ scripts/*.log
 frontend/public/assets/*-original.webp
 frontend/public/assets/*-backup.webp
 frontend/public/images/hero-family.webp
+mongo-backup/
