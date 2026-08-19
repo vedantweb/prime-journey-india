@@ -133,11 +133,11 @@ export default function Hero() {
         animate={{ y: "0%", opacity: 1 }}
         exit={{ y: "-14%", opacity: 0 }}
         transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute left-[2.5%] top-[3%] z-20 h-[43%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.5rem] bg-[#0875D1]/80 shadow-[18px_20px_50px_rgba(0,31,74,0.14)] sm:top-[2.5%] sm:h-[48%] sm:w-[36vw] sm:min-w-[390px]"
+        className="pointer-events-none absolute left-[2.5%] top-[3%] z-20 h-[50%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.5rem] bg-[#0875D1]/80 shadow-[18px_20px_50px_rgba(0,31,74,0.14)] sm:top-[2.5%] sm:h-[55%] sm:w-[36vw] sm:min-w-[390px]"
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.16),transparent_34%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/10 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/10 via-black/5 to-transparent" />
       </motion.div>
 
       {/* hero copy */}
@@ -240,7 +240,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0, rotate: -2 }}
             exit={{ opacity: 0, y: -14, rotate: 2 }}
             transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-1/2 top-[48%] z-50 w-[220px] -translate-x-1/2 sm:left-[45%] sm:top-[25%] sm:w-[340px] sm:-translate-y-1/2"
+            className="absolute left-1/2 top-[48%] z-50 w-[220px] -translate-x-1/2 sm:left-[45%] sm:top-[34%] sm:w-[340px] sm:-translate-y-1/2"
           >
             <div className="torn-paper px-4 py-4 sm:px-5 sm:py-6">
               <p className="text-[8px] font-extrabold uppercase tracking-[0.28em] text-coral sm:text-[10px]">
@@ -283,7 +283,7 @@ export default function Hero() {
       )}
 
       {/* search */}
-      <div className="absolute inset-x-0 bottom-[11.5rem] z-40 flex justify-center px-4 sm:bottom-[16rem] sm:px-5">
+      <div className="absolute inset-x-0 bottom-[4.5rem] z-40 flex justify-center px-4 sm:bottom-[5rem] sm:px-5">
         <SearchBar className="w-full max-w-[560px]" />
       </div>
 
