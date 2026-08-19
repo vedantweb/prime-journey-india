@@ -313,7 +313,6 @@ export default function Hero() {
           </button>
         ))}
       </div>
-      <HomeEaseBand />
     </section>
   );
 }
