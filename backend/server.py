@@ -89,19 +89,19 @@ async def create_enquiry(payload: EnquiryIn):
 # internal backend accounts; internal emails are never exposed by the API.
 
 ADMIN_SEED = [
-    {"key": "master", "alias": "master@pji.com", "internal_email": "admin.master@primejourneyindia.internal",
+    {"key": "master", "alias": "master@pji.com", "internal_email": "agencyvedanta@gmail.com",
      "display_name": "Master", "greeting": "Welcome, Master", "role": "master",
      "role_label": "Master Admin", "image_key": "logo",
      "permissions": ["bookings", "feedback", "homepage", "destinations", "packages", "images", "experiences", "team", "users", "admins", "settings"]},
-    {"key": "ramesh", "alias": "ramesh@pji.com", "internal_email": "admin.ramesh@primejourneyindia.internal",
+    {"key": "ramesh", "alias": "ramesh@pji.com", "internal_email": "agencyvedanta@gmail.com",
      "display_name": "Mr. Ramesh Dhir", "greeting": "Welcome, Mr. Ramesh", "role": "admin",
      "role_label": "Founder / Admin", "image_key": "founder",
      "permissions": ["bookings", "feedback", "homepage", "destinations", "packages", "images", "experiences", "team", "users", "admins", "settings"]},
-    {"key": "abhishek", "alias": "abhishek@pji.com", "internal_email": "admin.abhishek@primejourneyindia.internal",
+    {"key": "abhishek", "alias": "abhishek@pji.com", "internal_email": "agencyvedanta@gmail.com",
      "display_name": "Mr. Abhishek Dhir", "greeting": "Welcome, Mr. Abhishek", "role": "admin",
      "role_label": "Co-Founder / Admin", "image_key": "cofounder2",
      "permissions": ["bookings", "feedback", "homepage", "destinations", "packages", "images", "experiences", "team", "users", "admins", "settings"]},
-    {"key": "dheeraj", "alias": "dheeraj@pji.com", "internal_email": "admin.dheeraj@primejourneyindia.internal",
+    {"key": "dheeraj", "alias": "dheeraj@pji.com", "internal_email": "agencyvedanta@gmail.com",
      "display_name": "Mr. Dheeraj Dhir", "greeting": "Welcome, Mr. Dheeraj", "role": "admin",
      "role_label": "Co-Founder / Admin", "image_key": "cofounder1",
      "permissions": ["bookings", "feedback", "homepage", "destinations", "packages", "images", "experiences", "team", "users", "admins", "settings"]},
