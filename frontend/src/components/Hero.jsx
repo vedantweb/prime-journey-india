@@ -9,7 +9,6 @@ import { scrollToId } from './Header';
 import { useUI } from '../context/UIContext';
 import PriceCounter, { inr } from './PriceCounter';
 import SearchBar from './SearchBar';
-import HomeEaseBand from './HomeEaseBand';
 
 const DURATION = 9000;
 
