@@ -916,10 +916,13 @@ async def startup():
 app.include_router(api_router)
 
 cors_origins = [
-    origin.strip()
+    origin.strip().rstrip("/")
     for origin in os.environ.get("CORS_ORIGINS", "").split(",")
     if origin.strip()
 ]
+
+logging.warning("PRODUCTION CORS_ORIGINS=%r", cors_origins)
+
 
 app.add_middleware(
     CORSMiddleware,
