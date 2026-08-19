@@ -136,7 +136,76 @@ def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
+    try:
+        return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
+    except (ValueError, TypeError):
+        return False
+
+
+# A fixed bcrypt hash is used when an alias does not exist so that login
+# timing does not immediately reveal whether an alias is registered.
+DUMMY_PASSWORD_HASH = hash_password("invalid-login-placeholder-9f3c7a2e")
+
+
+def get_client_ip(request: Request) -> str:
+    # Do not trust client-controlled forwarding headers unless a trusted
+    # proxy chain is explicitly configured.
+    return request.client.host if request.client else "unknown"
+
+
+async def check_login_lock(identifier: str, now: datetime):
+    attempt = await db.login_attempts.find_one({"identifier": identifier})
+    if not attempt:
+        return
+
+    locked_until = attempt.get("locked_until")
+    if not locked_until:
+        return
+
+    try:
+        locked_until_dt = datetime.fromisoformat(locked_until)
+    except (TypeError, ValueError):
+        await db.login_attempts.update_one(
+            {"identifier": identifier},
+            {"$set": {"locked_until": None}},
+        )
+        return
+
+    if locked_until_dt > now:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many login attempts. Please try again later.",
+        )
+
+
+async def record_failed_login(identifier: str, now: datetime, limit: int):
+    result = await db.login_attempts.find_one_and_update(
+        {"identifier": identifier},
+        {
+            "$inc": {"count": 1},
+            "$set": {"last_failed_at": now.isoformat()},
+            "$setOnInsert": {"created_at": now.isoformat()},
+        },
+        upsert=True,
+        return_document=True,
+    )
+
+    count = result.get("count", 0) if result else 0
+
+    if count >= limit:
+        await db.login_attempts.update_one(
+            {"identifier": identifier},
+            {
+                "$set": {
+                    "locked_until": (now + timedelta(minutes=15)).isoformat(),
+                    "count": 0,
+                }
+            },
+        )
+
+
+async def clear_login_attempt(identifier: str):
+    await db.login_attempts.delete_one({"identifier": identifier})
 
 def create_admin_token(admin: dict) -> str:
     payload = {
@@ -189,38 +258,50 @@ class AdminLoginIn(BaseModel):
 @api_router.post("/admin/auth/login")
 async def admin_login(body: AdminLoginIn, request: Request):
     alias = body.alias.strip().lower()
-    identifier = f"{request.client.host}:{alias}"
+    client_ip = get_client_ip(request)
     now = datetime.now(timezone.utc)
 
-    attempt = await db.login_attempts.find_one({"identifier": identifier})
-    if attempt and attempt.get("locked_until"):
-        locked_until = datetime.fromisoformat(attempt["locked_until"])
-        if locked_until > now:
-            raise HTTPException(status_code=429, detail="Too many failed attempts. Try again in 15 minutes.")
+    # Two independent limits:
+    # 1. Same IP + alias: protects an individual admin account.
+    # 2. Same IP: prevents rotating aliases to bypass the account limit.
+    account_identifier = f"account:{client_ip}:{alias}"
+    ip_identifier = f"ip:{client_ip}"
+
+    await check_login_lock(account_identifier, now)
+    await check_login_lock(ip_identifier, now)
 
     admin = await db.admins.find_one({"alias": alias})
-    if not admin or not verify_password(body.password, admin["password_hash"]):
-        await db.login_attempts.update_one(
-            {"identifier": identifier},
-            {"$inc": {"count": 1}, "$set": {"locked_until": None}},
-            upsert=True,
-        )
-        updated = await db.login_attempts.find_one({"identifier": identifier})
-        if updated and updated.get("count", 0) >= 5:
-            await db.login_attempts.update_one(
-                {"identifier": identifier},
-                {"$set": {"locked_until": (now + timedelta(minutes=15)).isoformat(), "count": 0}},
-            )
-        raise HTTPException(status_code=401, detail="Invalid alias or password.")
 
-    await db.login_attempts.delete_one({"identifier": identifier})
+    password_hash = admin["password_hash"] if admin else DUMMY_PASSWORD_HASH
+    password_valid = verify_password(body.password, password_hash)
+
+    if not admin or not password_valid:
+        await record_failed_login(account_identifier, now, 5)
+        await record_failed_login(ip_identifier, now, 20)
+
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid alias or password.",
+        )
+
+    # Successful authentication clears the account-specific failures.
+    # IP-wide failures are also cleared because the user has authenticated
+    # successfully; this avoids penalizing legitimate shared networks.
+    await clear_login_attempt(account_identifier)
+    await clear_login_attempt(ip_identifier)
 
     # Master is never forced to change password.
-    must_change = admin.get("key") != "master" and admin.get("must_change_password", False)
+    must_change = (
+        admin.get("key") != "master"
+        and admin.get("must_change_password", False)
+    )
 
     return {
         "token": create_admin_token(admin),
-        "profile": {**public_profile(admin), "mustChangePassword": must_change},
+        "profile": {
+            **public_profile(admin),
+            "mustChangePassword": must_change,
+        },
     }
 
 @api_router.get("/admin/auth/me")
