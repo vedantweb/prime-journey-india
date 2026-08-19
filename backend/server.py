@@ -89,6 +89,56 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     return status_checks
 
+# ---------------- public abuse protection ----------------
+
+async def check_public_rate_limit(
+    request: Request,
+    action: str,
+    limit: int,
+    window_minutes: int = 15,
+):
+    ip = request.client.host if request.client else "unknown"
+    identifier = f"public:{action}:{ip}"
+    now = datetime.now(timezone.utc)
+
+    record = await db.rate_limits.find_one({"identifier": identifier})
+
+    if record:
+        try:
+            window_start = datetime.fromisoformat(record["window_start"])
+        except (TypeError, ValueError, KeyError):
+            window_start = now
+
+        elapsed = now - window_start
+
+        if elapsed < timedelta(minutes=window_minutes):
+            count = int(record.get("count", 0))
+
+            if count >= limit:
+                raise HTTPException(
+                    status_code=429,
+                    detail="Too many requests. Please try again later.",
+                )
+
+            await db.rate_limits.update_one(
+                {"identifier": identifier},
+                {"$inc": {"count": 1}},
+            )
+            return
+
+    await db.rate_limits.update_one(
+        {"identifier": identifier},
+        {
+            "$set": {
+                "window_start": now.isoformat(),
+                "count": 1,
+                "action": action,
+            }
+        },
+        upsert=True,
+    )
+
+
 # ---------------- enquiries (public intake + admin read) ----------------
 
 class EnquiryIn(BaseModel):
@@ -96,7 +146,15 @@ class EnquiryIn(BaseModel):
     type: Optional[str] = "Enquiry"
 
 @api_router.post("/enquiries")
-async def create_enquiry(payload: EnquiryIn):
+async def create_enquiry(payload: EnquiryIn, request: Request):
+    # Public endpoint: prevent automated spam/flooding.
+    # Normal visitors can still submit several enquiries when needed.
+    await check_public_rate_limit(
+        request,
+        action="enquiry",
+        limit=10,
+        window_minutes=15,
+    )
     data = payload.model_dump()
     count = await db.enquiries.count_documents({})
     ref = f"PJI-{str(count + 101).zfill(4)}"
