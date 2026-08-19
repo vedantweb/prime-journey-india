@@ -34,31 +34,13 @@ export const whyUs = [
 // imageKey maps to the centralized `assets` object in siteConfig.js
 export const leadership = [
   {
-    id: 'ramesh',
-    name: 'Mr. Ramesh Dhir',
-    role: 'Founder',
-    initials: 'RD',
-    tone: 'ocean',
-    imageKey: 'founder',
-    note: 'The vision behind Prime Journey India — a lifetime of love for the road, distilled into journeys built around people.',
-  },
-  {
     id: 'abhishek',
     name: 'Mr. Abhishek Dhir',
-    role: 'Co-Founder',
+    role: 'Founder',
     initials: 'AD',
     tone: 'saffron',
     imageKey: 'cofounder2',
     note: 'Keeps every journey connected — planning, booking and on-trip support handled by one steady hand.',
-  },
-  {
-    id: 'dheeraj',
-    name: 'Mr. Dheeraj Dhir',
-    role: 'Co-Founder',
-    initials: 'DD',
-    tone: 'turq',
-    imageKey: 'cofounder1',
-    note: 'Shapes every itinerary with an eye for detail — routes, stays and moments that feel effortless to the traveller.',
   },
 ];
 
