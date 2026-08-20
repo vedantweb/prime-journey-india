@@ -72,32 +72,42 @@ export default function Packages() {
   return (
     <section id="packages" data-testid="section-packages" className="relative bg-cloud py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex items-end justify-between gap-6">
-          <SectionHeading
-            eyebrow="Handcrafted Journeys"
-            title="Domestic Holiday Packages"
-            sub="Our most-loved itineraries — every one adjustable to your dates, pace and budget."
-          />
-          <Reveal delay={0.2} className="hidden shrink-0 gap-2.5 md:flex">
-            <button data-testid="packages-prev" onClick={() => scroll(-1)} aria-label="Previous packages" className="rounded-full border border-ocean/20 p-3 text-ocean transition-colors duration-300 hover:bg-ocean hover:text-white">
-              <ChevronLeft size={18} />
-            </button>
-            <button data-testid="packages-next" onClick={() => scroll(1)} aria-label="Next packages" className="rounded-full border border-ocean/20 p-3 text-ocean transition-colors duration-300 hover:bg-ocean hover:text-white">
-              <ChevronRight size={18} />
-            </button>
-          </Reveal>
-        </div>
+        <SectionHeading
+          eyebrow="Handcrafted Journeys"
+          title="Domestic Holiday Packages"
+          sub="Our most-loved itineraries — every one adjustable to your dates, pace and budget."
+        />
       </div>
 
       <Reveal delay={0.15}>
-        <div
-          ref={trackRef}
-          data-testid="packages-track"
-          className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]"
-        >
-          {packages.map((p) => (
-            <PackageCard key={p.id} pkg={p} onOpen={(pkg) => navigate(`/packages/${pkg.id}`)} onBook={(pkg) => openBooking(pkg.name)} />
-          ))}
+        <div className="relative mt-12">
+          <div
+            ref={trackRef}
+            data-testid="packages-track"
+            className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]"
+          >
+            {packages.map((p) => (
+              <PackageCard key={p.id} pkg={p} onOpen={(pkg) => navigate(`/packages/${pkg.id}`)} onBook={(pkg) => openBooking(pkg.name)} />
+            ))}
+          </div>
+
+          <button
+            data-testid="packages-prev"
+            onClick={() => scroll(-1)}
+            aria-label="Previous packages"
+            className="absolute left-3 top-[6.5rem] z-20 hidden -translate-y-1/2 rounded-full border border-ocean/20 bg-white/95 p-3 text-ocean shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-ocean hover:text-white md:flex"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          <button
+            data-testid="packages-next"
+            onClick={() => scroll(1)}
+            aria-label="Next packages"
+            className="absolute right-3 top-[6.5rem] z-20 hidden -translate-y-1/2 rounded-full border border-ocean/20 bg-white/95 p-3 text-ocean shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-ocean hover:text-white md:flex"
+          >
+            <ChevronRight size={18} />
+          </button>
         </div>
       </Reveal>
     </section>
