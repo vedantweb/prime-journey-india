@@ -150,16 +150,16 @@ export default function Hero() {
               initial="hidden"
               animate="show"
               exit={{ opacity: 0, y: -18, transition: { duration: 0.35 } }}
-              className="pointer-events-auto absolute left-5 top-[11%] z-40 flex w-[calc(100vw-4rem)] max-w-[430px] max-h-[58%] overflow-hidden flex-col sm:left-8 sm:top-[12%] sm:w-[min(430px,calc(42vw-6rem))] lg:left-[clamp(2rem,5vw,5.5rem)]"
+              className="pointer-events-auto absolute left-5 top-[7%] z-40 flex w-[calc(100vw-2.5rem)] max-w-[620px] max-h-[72%] overflow-hidden flex-col sm:left-8 sm:top-[7%] sm:w-[min(620px,calc(58vw-4rem))] lg:left-[clamp(2rem,5vw,5.5rem)]"
             >
               <motion.div
                 variants={fadeUp}
                 className="mb-5"
               >
-                <p className="font-body text-2xl font-black uppercase leading-none tracking-[0.22em] text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)] sm:text-3xl lg:text-4xl">
+                <p className="font-display text-4xl font-black uppercase leading-[0.88] tracking-[0.06em] text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:text-5xl lg:text-6xl">
                   PRIME JOURNEY
                 </p>
-                <p className="mt-1 font-body text-xl font-black uppercase leading-none tracking-[0.42em] text-[#FFD36A] drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)] sm:text-2xl lg:text-3xl">
+                <p className="mt-1 font-display text-3xl font-black uppercase leading-[0.9] tracking-[0.18em] text-[#FFD36A] drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:text-4xl lg:text-5xl">
                   INDIA
                 </p>
               </motion.div>
