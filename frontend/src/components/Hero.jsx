@@ -132,16 +132,16 @@ export default function Hero() {
         animate={{ y: "0%", opacity: 1 }}
         exit={{ y: "-14%", opacity: 0 }}
         transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute left-[2.5%] top-[17%] z-20 h-[70%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.5rem] bg-[#0875D1]/80 shadow-[18px_20px_50px_rgba(0,31,74,0.14)] sm:top-[2.5%] sm:h-[55%] sm:w-[36vw] sm:min-w-[390px]"
+        className="pointer-events-none absolute left-[2.5%] top-[17%] z-20 h-[70%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.75rem] border border-white/15 bg-black/50 shadow-[0_28px_80px_rgba(0,31,74,0.28),inset_0_1px_0_rgba(255,255,255,0.18)] backdrop-blur-[3px] sm:top-[2.5%] sm:h-[55%] sm:w-[36vw] sm:min-w-[390px]"
         aria-hidden="true"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.16),transparent_34%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/10 via-black/5 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgba(255,255,255,0.20),transparent_32%),linear-gradient(145deg,rgba(255,255,255,0.05),transparent_45%,rgba(0,35,90,0.12))]" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-ocean-deep/20 via-black/5 to-transparent" />
       </motion.div>
 
       {/* floating brand title over hero image */}
       <div className="pointer-events-none absolute left-1/2 top-[3%] z-40 -translate-x-1/2 text-center sm:left-[64%] sm:top-[5%] select-none">
-        <p className="font-[Montserrat] font-extrabold uppercase whitespace-nowrap text-[34px] sm:text-[60px] lg:text-[60px] leading-none tracking-[0.01em] text-[#082B52] drop-shadow-[0_3px_2px_rgba(255,255,255,0.9)]">
+        <p className="font-[Montserrat] font-extrabold uppercase whitespace-nowrap text-[32px] sm:text-[54px] lg:text-[58px] leading-none tracking-[0.015em] text-[#082B52] drop-shadow-[0_4px_3px_rgba(255,255,255,0.9)]">
           PRIME JOURNEY <span className="text-[#F39A2F]">INDIA</span>
         </p>
       </div>
@@ -156,7 +156,7 @@ export default function Hero() {
               initial="hidden"
               animate="show"
               exit={{ opacity: 0, y: -18, transition: { duration: 0.35 } }}
-              className="pointer-events-auto absolute left-5 top-[19%] z-40 flex w-[calc(100vw-2.5rem)] max-w-[620px] max-h-[72%] overflow-hidden flex-col sm:left-8 sm:top-[7%] sm:w-[min(620px,calc(58vw-4rem))] lg:left-[clamp(2rem,5vw,5.5rem)]"
+              className="pointer-events-auto absolute left-5 top-[19%] z-40 flex w-[calc(100vw-2.5rem)] max-w-[500px] max-h-[72%] overflow-hidden flex-col sm:left-8 sm:top-[7%] sm:w-[min(500px,36vw)] lg:left-[clamp(2rem,5vw,5.5rem)]"
             >
               <motion.div
                 variants={fadeUp}
@@ -167,20 +167,20 @@ export default function Hero() {
               <motion.p
                 variants={fadeUp}
                 data-testid="hero-eyebrow"
-                className="mb-4 flex items-center gap-3 font-body text-xs font-extrabold uppercase tracking-[0.32em] text-[#FFD36A] sm:text-sm"
+                className="mb-5 flex items-center gap-3 font-body text-[11px] font-extrabold uppercase tracking-[0.38em] text-[#FFD36A] drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] sm:text-xs"
               >
-                <span className="h-px w-10 bg-gold" />
+                <span className="h-px w-10 bg-gold shadow-[0_0_10px_rgba(255,193,7,0.45)]" />
                 {slide.eyebrow}
               </motion.p>
 
-              <h1 className="font-display font-bold leading-[0.92] tracking-tight text-white text-shadow-hero">
+              <h1 className="font-display font-bold leading-[0.91] tracking-[-0.025em] text-white text-shadow-hero">
                 {slide.headlineLines ? (
                   slide.headlineLines.map((line, li) => (
                     <span key={line} className="block overflow-hidden">
                       <motion.span
                         variants={clipUp}
                         data-testid={li === 0 ? 'hero-headline' : undefined}
-                        className={`block text-4xl sm:text-5xl lg:text-6xl ${li === slide.headlineLines.length - 1 ? 'italic text-[#FFD36A]' : ''}`}
+                        className={`block text-[2.5rem] sm:text-[3.05rem] lg:text-[3.65rem] leading-[0.95] ${li === slide.headlineLines.length - 1 ? 'text-[#FFD36A]' : ''}`}
                       >
                         {line}
                       </motion.span>
@@ -201,7 +201,7 @@ export default function Hero() {
                       <motion.span
                         variants={clipUp}
                         data-testid="hero-headline"
-                        className="block text-5xl sm:text-6xl lg:text-7xl"
+                        className="block text-[3.4rem] sm:text-[4.15rem] lg:text-[5rem]"
                       >
                         {restWords.join(' ')}
                       </motion.span>
@@ -213,19 +213,19 @@ export default function Hero() {
               <motion.p
                 variants={fadeUp}
                 data-testid="hero-sub"
-                className="mt-4 max-w-[420px] font-body text-base font-semibold leading-relaxed text-white sm:text-lg lg:text-xl"
+                className="mt-5 max-w-[430px] font-body text-[15px] font-semibold leading-[1.65] text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.28)] sm:text-lg lg:text-xl"
               >
                 {slide.sub}
               </motion.p>
 
               <motion.div
                 variants={fadeUp}
-                className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center"
+                className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center"
               >
                 <button
                   data-testid="hero-cta-primary"
                   onClick={() => scrollToId('destinations')}
-                  className="btn-arrow group flex items-center gap-1.5 rounded-full bg-saffron px-4 py-3 text-xs sm:gap-2 sm:px-7 sm:py-3.5 sm:text-sm font-body text-sm font-bold text-ocean-deep shadow-[0_10px_30px_rgba(255,153,51,0.45)] transition-colors duration-300 hover:bg-coral hover:text-white"
+                  className="btn-arrow group flex items-center gap-2 rounded-full bg-saffron px-5 py-3.5 font-body text-sm font-bold text-ocean-deep shadow-[0_12px_32px_rgba(255,153,51,0.38)] ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-0.5 hover:bg-coral hover:text-white hover:shadow-[0_16px_38px_rgba(255,153,51,0.42)] sm:px-7 sm:py-3.5"
                 >
                   {slide.ctaPrimary || slide.headline} <ArrowRight size={16} />
                 </button>
@@ -233,7 +233,7 @@ export default function Hero() {
                 <button
                   data-testid="hero-cta-secondary"
                   onClick={() => scrollToId('packages')}
-                  className="rounded-full border border-white/60 bg-white/10 px-4 py-3 font-body text-xs font-bold sm:px-7 sm:py-3.5 sm:text-sm text-white backdrop-blur-sm transition-colors duration-300 hover:border-white hover:bg-white/20"
+                  className="rounded-full border border-white/55 bg-white/10 px-5 py-3.5 font-body text-sm font-bold text-white shadow-[0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/20 sm:px-7 sm:py-3.5"
                 >
                   View Packages
                 </button>
@@ -254,31 +254,31 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="absolute left-1/2 top-[48%] z-50 w-[220px] -translate-x-1/2 sm:left-[45%] sm:top-[34%] sm:w-[340px] sm:-translate-y-1/2"
           >
-            <div className="torn-paper px-4 py-4 sm:px-5 sm:py-6">
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-coral sm:text-xs">
+            <div className="torn-paper px-5 py-5 shadow-[0_22px_55px_rgba(6,24,43,0.24)] sm:px-7 sm:py-7">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.34em] text-coral sm:text-xs">
                 Season Offer
               </p>
 
-              <p className="mt-1 font-display text-xl font-bold uppercase leading-tight text-ocean sm:mt-1.5 sm:text-2xl">
+              <p className="mt-2 font-display text-[1.35rem] font-bold uppercase leading-[1.05] tracking-tight text-ocean sm:text-[1.7rem]">
                 {offer.name}
               </p>
 
               <button
                 data-testid="hero-offer-get-price"
                 onClick={() => openBooking(offer.name)}
-                className="btn-arrow mt-3 inline-flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-ocean-deep shadow-md transition-colors duration-300 hover:bg-coral hover:text-white sm:px-6 sm:py-3 sm:text-xs"
+                className="btn-arrow mt-4 inline-flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-xs font-extrabold uppercase tracking-[0.08em] text-ocean-deep shadow-[0_10px_25px_rgba(255,153,51,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-coral hover:text-white sm:px-6 sm:py-3"
               >
                 Get Price <ArrowRight size={14} />
               </button>
 
-              <p className="mt-1 text-[11px] font-bold text-ink/55 sm:text-xs">
+              <p className="mt-2 text-[11px] font-bold tracking-wide text-ink/55 sm:text-xs">
                 {offer.duration}
               </p>
 
               <Link
                 data-testid="hero-offer-link"
                 to={`/packages/${offer.id}`}
-                className="btn-arrow group mt-3 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-ocean transition-colors duration-200 hover:text-coral sm:mt-5 sm:text-sm"
+                className="btn-arrow group mt-4 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-ocean transition-all duration-200 hover:translate-x-0.5 hover:text-coral sm:mt-5 sm:text-sm"
               >
                 View Journey <ArrowRight size={13} />
               </Link>
@@ -293,7 +293,7 @@ export default function Hero() {
       </div>
 
       {/* indicators */}
-      <div className="absolute right-5 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-end gap-2.5 lg:flex">
+      <div className="absolute right-6 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-end gap-3 lg:flex">
         {heroSlides.map((s, i) => (
           <button
             key={s.key}
@@ -303,13 +303,13 @@ export default function Hero() {
             className="group flex items-center gap-2.5"
           >
             <span
-              className={`font-body text-[10px] font-bold uppercase tracking-[0.25em] transition-opacity duration-300 ${
+              className={`font-body text-[10px] font-extrabold uppercase tracking-[0.24em] drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)] transition-opacity duration-300 ${
                 i === index ? 'text-white opacity-100' : 'text-white/60 opacity-0 group-hover:opacity-100'
               }`}
             >
               {s.eyebrow}
             </span>
-            <span className={`block h-[3px] overflow-hidden rounded-full transition-[width,background-color] duration-500 ${i === index ? 'w-12 bg-white/30' : 'w-5 bg-white/35 group-hover:bg-white/60'}`}>
+            <span className={`block h-[3px] overflow-hidden rounded-full shadow-[0_0_8px_rgba(255,255,255,0.15)] transition-[width,background-color,box-shadow] duration-500 ${i === index ? 'w-14 bg-white/35' : 'w-5 bg-white/35 group-hover:bg-white/65'}`}>
               {i === index && (
                 <span key={index} className="hero-progress block h-full w-full bg-saffron" style={{ animationDuration: `${DURATION}ms` }} />
               )}
