@@ -29,10 +29,10 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <DiscoverIndia />
-      <TornPaperOffer />
       <Packages />
+      <TornPaperOffer />
       <SeasonExplorer />
+      <DiscoverIndia />
       <TravelStyles />
       <Experiences />
       <WhyUs />

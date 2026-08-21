@@ -5,6 +5,7 @@ import { ArrowRight, CloudRain, Snowflake, Sun } from 'lucide-react';
 import { packages, seasons } from '../data/packages';
 import { EffectLayer } from './effects/EnvironmentEffects';
 import { SectionHeading, Reveal } from './Section';
+import { useUI } from '../context/UIContext';
 
 const ICONS = { winter: Snowflake, summer: Sun, monsoon: CloudRain };
 
@@ -12,6 +13,7 @@ export default function SeasonExplorer() {
   const [active, setActive] = useState('winter');
   const season = seasons[active];
   const navigate = useNavigate();
+  const { openBooking } = useUI();
 
   return (
     <section id="seasons" data-testid="section-seasons" className="bg-white py-24 sm:py-32">
@@ -95,7 +97,7 @@ export default function SeasonExplorer() {
                       <button
                         key={id}
                         data-testid={`season-package-${id}`}
-                        onClick={() => navigate(`/packages/${id}`)}
+                        onClick={() => openBooking(pkg.name)}
                         className="group flex items-center gap-4 rounded-2xl border border-ocean/10 bg-white p-3.5 text-left shadow-[0_6px_24px_rgba(6,24,43,0.06)] transition-[box-shadow,border-color] duration-300 hover:border-saffron/60 hover:shadow-[0_14px_36px_rgba(6,24,43,0.12)]"
                       >
                         <img src={pkg.image} alt={pkg.alt} loading="lazy" className="h-16 w-20 rounded-xl object-cover" />
@@ -104,7 +106,7 @@ export default function SeasonExplorer() {
                           <span className="block text-xs font-medium text-ink/55">{pkg.duration}</span>
                         </span>
                         <span className="flex items-center gap-1.5 rounded-full bg-ocean/5 px-4 py-2 text-xs font-bold text-ocean transition-colors duration-300 group-hover:bg-saffron group-hover:text-ocean-deep">
-                          From ₹{pkg.priceTo.toLocaleString('en-IN')} <ArrowRight size={13} />
+                          Get Price <ArrowRight size={13} />
                         </span>
                       </button>
                     );

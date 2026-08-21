@@ -19,9 +19,7 @@ function PackageCard({ pkg, onOpen, onBook }) {
         <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-ocean-deep/70 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
           <Clock size={12} /> {pkg.duration}
         </span>
-        <span className="absolute right-4 top-4 rounded-full bg-saffron px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-ocean-deep">
-          You Saved {inr(pkg.saved ?? (pkg.priceFrom - pkg.priceTo))}
-        </span>
+
       </div>
       <div className="p-6">
         <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-turq">
@@ -29,17 +27,14 @@ function PackageCard({ pkg, onOpen, onBook }) {
         </p>
         <h3 className="mt-2 font-display text-2xl font-bold text-ocean">{pkg.name}</h3>
         <p className="mt-1 text-[13px] font-medium text-ink/55">{pkg.route}</p>
-        <div className="mt-5 flex items-end justify-between border-t border-dashed border-ocean/15 pt-4">
-          <div>
-            <span className="block text-xs font-semibold text-ink/45 line-through">{inr(pkg.priceFrom)}</span>
-            <PriceCounter
-              from={pkg.priceFrom}
-              to={pkg.priceTo}
-              testid={`package-price-${pkg.id}`}
-              className="font-body text-2xl font-extrabold text-ocean"
-            />
-            <span className="block text-[11px] font-medium text-ink/45">per person onwards</span>
-          </div>
+        <div className="mt-5 border-t border-dashed border-ocean/15 pt-4">
+          <button
+            data-testid={`package-get-price-${pkg.id}`}
+            onClick={(e) => { e.stopPropagation(); onBook(pkg); }}
+            className="btn-arrow flex w-full items-center justify-center gap-2 rounded-full bg-saffron px-5 py-3 text-sm font-extrabold text-ocean-deep transition-colors duration-300 hover:bg-coral hover:text-white"
+          >
+            Get Price <ArrowRight size={15} />
+          </button>
         </div>
         <div className="mt-5 flex gap-2.5">
           <button
@@ -54,7 +49,7 @@ function PackageCard({ pkg, onOpen, onBook }) {
             onClick={(e) => { e.stopPropagation(); onBook(pkg); }}
             className="btn-arrow group/btn flex flex-1 items-center justify-center gap-1.5 rounded-full bg-saffron px-4 py-2.5 text-[13px] font-bold text-ocean-deep transition-colors duration-300 hover:bg-coral hover:text-white"
           >
-            Book Now <ArrowRight size={14} />
+            Get Price <ArrowRight size={14} />
           </button>
         </div>
       </div>

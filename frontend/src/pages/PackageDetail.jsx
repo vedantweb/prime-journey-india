@@ -131,15 +131,16 @@ export default function PackageDetail() {
           <div>
             <Reveal delay={0.1} className="lg:sticky lg:top-24">
               <div data-testid="package-price-card" className="rounded-3xl bg-ocean p-8 text-white shadow-[0_24px_60px_rgba(6,24,43,0.25)]">
-                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">Starting From</p>
-                <div className="mt-3 flex items-end gap-3">
-                  <span className="pb-1.5 text-sm font-semibold text-white/40 line-through">{inr(pkg.priceFrom)}</span>
-                  <PriceCounter from={pkg.priceFrom} to={pkg.priceTo} testid="package-detail-price" className="font-body text-4xl font-extrabold text-gold" />
-                </div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">Get Your Price</p>
+                <button
+                  data-testid="package-detail-get-price"
+                  onClick={() => openBooking(pkg.name)}
+                  className="btn-arrow mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-saffron px-6 py-3 font-body text-sm font-extrabold text-ocean-deep transition-colors duration-300 hover:bg-gold"
+                >
+                  Get Price <ArrowRight size={15} />
+                </button>
                 <p className="mt-1 text-xs font-semibold text-white/55">per person · {pkg.duration}</p>
-                <p className="mt-2 text-sm font-extrabold text-saffron">
-                  You Saved {inr(pkg.saved ?? (pkg.priceFrom - pkg.priceTo))}
-                </p>
+                
                 <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6">
                   {facts.map(({ Icon, label, value }) => (
                     <div key={label} className="flex items-start gap-3">
@@ -156,7 +157,7 @@ export default function PackageDetail() {
                   onClick={() => openBooking(pkg.name)}
                   className="btn-arrow group mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-saffron py-4 font-body text-sm font-bold text-ocean-deep transition-colors duration-300 hover:bg-gold"
                 >
-                  Book This Journey <ArrowRight size={15} />
+                  Get Price <ArrowRight size={15} />
                 </button>
                 <a
                   data-testid="package-whatsapp-cta"

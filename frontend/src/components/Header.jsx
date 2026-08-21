@@ -62,8 +62,8 @@ export default function Header() {
 
 
       <div className="flex h-[76px] w-full items-center justify-between px-2 sm:px-4 lg:px-6">
-        <button data-testid="nav-home" onClick={() => navigate('/')} className="shrink-0 pl-0" aria-label="Prime Journey India home">
-          <Logo />
+        <button data-testid="nav-home" onClick={() => navigate('/')} className="min-w-0 shrink mr-2" aria-label="Prime Journey India home">
+          <Logo compact={false} />
         </button>
 
         <nav className="hidden items-center gap-6 xl:gap-7 lg:flex" aria-label="Primary">
@@ -89,7 +89,7 @@ export default function Header() {
           <button
             data-testid="btn-book-now"
             onClick={() => openBooking()}
-            className="btn-arrow group flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-[13.5px] font-bold text-ocean-deep shadow-[0_6px_18px_rgba(255,153,51,0.4)] transition-colors duration-300 hover:bg-coral hover:text-white sm:px-5"
+            className="btn-arrow group flex items-center gap-2 rounded-full bg-saffron px-2 py-2 text-[10px] sm:px-5 sm:py-2.5 sm:text-[13.5px] sm:px-5 sm:py-2.5 sm:text-[13.5px] font-bold text-ocean-deep shadow-[0_6px_18px_rgba(255,153,51,0.4)] transition-colors duration-300 hover:bg-coral hover:text-white sm:px-5"
           >
             Book Now <ArrowRight size={15} />
           </button>

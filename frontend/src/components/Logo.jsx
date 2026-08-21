@@ -12,17 +12,17 @@ export default function Logo({ dark = false, compact = false }) {
       ) : (
         <img
           src={assets.logo}
-          alt="Prime Journey India"
+          alt="PRIME JOURNEY INDIA"
           onError={() => setErr(true)}
-          className="h-12 w-12 rounded-full object-cover shadow-md"
+          className="h-14 w-14 rounded-full object-cover shadow-md"
         />
       )}
       {!compact && (
         <span className="leading-none">
-          <span className={`block font-display text-[20px] font-bold tracking-tight ${dark ? 'text-white' : 'text-ocean'}`}>
-            Prime Journey India
+          <span className={`block uppercase font-[Montserrat] text-[14px] font-extrabold tracking-[0.02em] sm:text-[20px]`}>
+            PRIME JOURNEY INDIA
           </span>
-          <span className={`mt-0.5 block font-editorial text-[15px] italic ${dark ? 'text-gold' : 'text-saffron'}`}>
+          <span className={`mt-0.5 hidden sm:block font-editorial text-[15px] italic ${dark ? 'text-gold' : 'text-saffron'}`}>
             India, Your Way.
           </span>
         </span>

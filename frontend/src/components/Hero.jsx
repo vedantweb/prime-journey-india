@@ -91,12 +91,12 @@ export default function Hero() {
     >
       <motion.div
         className={`absolute inset-0 ${s.key === heroSlides[0].key ? '' : '-translate-y-[3%] scale-[1.04]'}`}
-        style={{ x: px, y: py, scale: 1.04 }}
+        style={{ x: px, y: s.key === heroSlides[0].key ? py - 0.15 : s.key === 'jaipur' ? py - 0.20 : py, scale: 1.04 }}
       >
         <img
           src={s.image}
           alt={s.alt}
-          className={`h-full w-full object-cover ${incoming ? 'hero-zoom' : ''} ${s.key === heroSlides[0].key ? '' : s.key === 'amritsar' ? 'saturate-[1.28] contrast-[1.06] brightness-[1.04]' : 'saturate-[1.12] contrast-[1.04]'}`}
+          className={`h-full w-full object-cover object-top ${incoming ? 'hero-zoom' : ''} ${s.key === heroSlides[0].key ? '' : s.key === 'amritsar' ? 'saturate-[1.28] contrast-[1.06] brightness-[1.04]' : 'saturate-[1.12] contrast-[1.04]'}`}
           loading={s.key === heroSlides[0].key ? 'eager' : 'lazy'}
           fetchPriority={s.key === heroSlides[0].key ? 'high' : 'auto'}
           decoding="async"
@@ -126,19 +126,25 @@ export default function Hero() {
       {prev !== null && renderSlide(heroSlides[prev], 0, false)}
       {renderSlide(slide, 10, true)}
 
-      {/* cinematic blue campaign card */}
       <motion.div
         key={`panel-${slide.key}`}
         initial={{ y: "-28%", opacity: 0 }}
         animate={{ y: "0%", opacity: 1 }}
         exit={{ y: "-14%", opacity: 0 }}
         transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute left-[2.5%] top-[3%] z-20 h-[50%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.5rem] bg-[#0875D1]/80 shadow-[18px_20px_50px_rgba(0,31,74,0.14)] sm:top-[2.5%] sm:h-[55%] sm:w-[36vw] sm:min-w-[390px]"
+        className="pointer-events-none absolute left-[2.5%] top-[17%] z-20 h-[70%] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[1.5rem] bg-[#0875D1]/80 shadow-[18px_20px_50px_rgba(0,31,74,0.14)] sm:top-[2.5%] sm:h-[55%] sm:w-[36vw] sm:min-w-[390px]"
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.16),transparent_34%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/10 via-black/5 to-transparent" />
       </motion.div>
+
+      {/* floating brand title over hero image */}
+      <div className="pointer-events-none absolute left-1/2 top-[3%] z-40 -translate-x-1/2 text-center sm:left-[64%] sm:top-[5%] select-none">
+        <p className="font-[Montserrat] font-extrabold uppercase whitespace-nowrap text-[34px] sm:text-[60px] lg:text-[60px] leading-none tracking-[0.01em] text-[#082B52] drop-shadow-[0_3px_2px_rgba(255,255,255,0.9)]">
+          PRIME JOURNEY <span className="text-[#F39A2F]">INDIA</span>
+        </p>
+      </div>
 
       {/* hero copy */}
       <div className="pointer-events-none absolute inset-0 z-30">
@@ -150,18 +156,12 @@ export default function Hero() {
               initial="hidden"
               animate="show"
               exit={{ opacity: 0, y: -18, transition: { duration: 0.35 } }}
-              className="pointer-events-auto absolute left-5 top-[11%] z-40 flex w-[calc(100vw-4rem)] max-w-[430px] max-h-[58%] overflow-hidden flex-col sm:left-8 sm:top-[12%] sm:w-[min(430px,calc(42vw-6rem))] lg:left-[clamp(2rem,5vw,5.5rem)]"
+              className="pointer-events-auto absolute left-5 top-[19%] z-40 flex w-[calc(100vw-2.5rem)] max-w-[620px] max-h-[72%] overflow-hidden flex-col sm:left-8 sm:top-[7%] sm:w-[min(620px,calc(58vw-4rem))] lg:left-[clamp(2rem,5vw,5.5rem)]"
             >
               <motion.div
                 variants={fadeUp}
                 className="mb-5"
               >
-                <p className="font-body text-2xl font-black uppercase leading-none tracking-[0.22em] text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)] sm:text-3xl lg:text-4xl">
-                  PRIME JOURNEY
-                </p>
-                <p className="mt-1 font-body text-xl font-black uppercase leading-none tracking-[0.42em] text-[#FFD36A] drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)] sm:text-2xl lg:text-3xl">
-                  INDIA
-                </p>
               </motion.div>
 
               <motion.p
@@ -255,30 +255,23 @@ export default function Hero() {
             className="absolute left-1/2 top-[48%] z-50 w-[220px] -translate-x-1/2 sm:left-[45%] sm:top-[34%] sm:w-[340px] sm:-translate-y-1/2"
           >
             <div className="torn-paper px-4 py-4 sm:px-5 sm:py-6">
-              <p className="text-[8px] font-extrabold uppercase tracking-[0.28em] text-coral sm:text-[10px]">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-coral sm:text-xs">
                 Season Offer
               </p>
 
-              <p className="mt-1 font-display text-base font-bold uppercase leading-tight text-ocean sm:mt-1.5 sm:text-lg">
+              <p className="mt-1 font-display text-xl font-bold uppercase leading-tight text-ocean sm:mt-1.5 sm:text-2xl">
                 {offer.name}
               </p>
 
-              <div className="mt-2 flex items-end gap-2.5">
-                <span className="text-[13px] font-semibold text-ink/40 line-through decoration-coral decoration-2">
-                  {inr(offer.priceFrom)}
-                </span>
+              <button
+                data-testid="hero-offer-get-price"
+                onClick={() => openBooking(offer.name)}
+                className="btn-arrow mt-3 inline-flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-ocean-deep shadow-md transition-colors duration-300 hover:bg-coral hover:text-white sm:px-6 sm:py-3 sm:text-xs"
+              >
+                Get Price <ArrowRight size={14} />
+              </button>
 
-                <PriceCounter
-                  key={`price-${slide.key}`}
-                  from={offer.priceFrom}
-                  to={offer.priceTo}
-                  duration={1.9}
-                  testid="hero-offer-price"
-                  className="font-body text-3xl font-extrabold tracking-tight text-saffron sm:text-4xl"
-                />
-              </div>
-
-              <p className="mt-1 text-[9px] font-bold text-ink/55 sm:text-[11px]">
+              <p className="mt-1 text-[11px] font-bold text-ink/55 sm:text-xs">
                 {offer.duration}
               </p>
 

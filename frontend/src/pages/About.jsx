@@ -71,11 +71,11 @@ export default function About() {
             sub=""
             align="center"
           />
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <div className="mx-auto mt-14 grid max-w-2xl gap-6 md:grid-cols-1">
             {leadership.map((p, i) => (
               <Reveal key={p.id} delay={i * 0.1}>
                 <div data-testid={`about-leader-${p.id}`} className="flex h-full flex-col items-center rounded-3xl bg-white p-9 text-center shadow-[0_10px_40px_rgba(6,24,43,0.07)]">
-                  <PersonImage imageKey={p.imageKey} initials={p.initials} tone={p.tone} testid={`about-avatar-${p.id}`} />
+                  <PersonImage imageKey={p.imageKey} initials={p.initials} tone={p.tone} size="h-64 w-64" rounded="rounded-2xl" testid={`about-avatar-${p.id}`} />
                   <h3 className="mt-6 font-display text-xl font-extrabold text-ocean">{p.name}</h3>
                   <span className="mt-2 rounded-full bg-saffron/15 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-[0.2em] text-saffron">{p.role}</span>
                   <p className="mt-4 text-sm leading-relaxed text-ink/60">{p.note}</p>

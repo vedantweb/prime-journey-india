@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap');
 
 @tailwind base;
@@ -276,3 +277,13 @@
 
 .text-shadow-hero { text-shadow: 0 2px 30px rgba(6, 24, 43, 0.45), 0 1px 6px rgba(6, 24, 43, 0.5); }
 
+
+@font-face {
+  src: url('./assets/fonts/LP-Pinsel-Satt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.lp-pinsel { font-family: 'Montserrat', sans-serif; font-weight: 800;
+}

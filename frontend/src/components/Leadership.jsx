@@ -22,14 +22,14 @@ export default function Leadership() {
           sub=""
           align="center"
         />
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-xl gap-6 md:grid-cols-1">
           {leadership.map((p, i) => (
             <Reveal key={p.id} delay={i * 0.1}>
               <div
                 data-testid={`leader-${p.id}`}
                 className="group flex h-full flex-col items-center rounded-3xl bg-white p-9 text-center shadow-[0_10px_40px_rgba(6,24,43,0.07)] transition-[box-shadow,transform] duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(6,24,43,0.14)]"
               >
-                <PersonImage imageKey={p.imageKey} initials={p.initials} tone={p.tone} testid={`leader-avatar-${p.id}`} />
+                <PersonImage imageKey={p.imageKey} initials={p.initials} tone={p.tone} size="h-64 w-64" rounded="rounded-2xl" testid={`leader-avatar-${p.id}`} />
                 <h3 className="mt-6 font-display text-xl font-bold text-ocean">{p.name}</h3>
                 <span className="mt-2 rounded-full bg-saffron/15 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-[0.2em] text-saffron">
                   {p.role}
