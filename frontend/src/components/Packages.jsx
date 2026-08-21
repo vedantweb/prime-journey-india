@@ -27,15 +27,6 @@ function PackageCard({ pkg, onOpen, onBook }) {
         </p>
         <h3 className="mt-2 font-display text-2xl font-bold text-ocean">{pkg.name}</h3>
         <p className="mt-1 text-[13px] font-medium text-ink/55">{pkg.route}</p>
-        <div className="mt-5 border-t border-dashed border-ocean/15 pt-4">
-          <button
-            data-testid={`package-get-price-${pkg.id}`}
-            onClick={(e) => { e.stopPropagation(); onBook(pkg); }}
-            className="btn-arrow flex w-full items-center justify-center gap-2 rounded-full bg-saffron px-5 py-3 text-sm font-extrabold text-ocean-deep transition-colors duration-300 hover:bg-coral hover:text-white"
-          >
-            Get Price <ArrowRight size={15} />
-          </button>
-        </div>
         <div className="mt-5 flex gap-2.5">
           <button
             data-testid={`package-details-${pkg.id}`}

@@ -110,9 +110,14 @@ export default function Footer() {
               href={siteConfig.sisterBrand.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-full border border-gold/40 px-4 py-2 text-xs font-bold text-gold transition-colors duration-300 hover:bg-gold hover:text-ocean-deep"
+              className="mt-8 inline-flex min-w-[465px] items-center gap-2 rounded-full border border-gold/40 px-5 py-3 text-xs font-bold text-gold transition-colors duration-300 hover:bg-gold hover:text-ocean-deep sm:min-w-[500px]"
             >
-              Also from our family: {siteConfig.sisterBrand.name}
+              <span className="flex flex-col items-start text-left">
+  <span className="font-display text-xl font-extrabold whitespace-nowrap text-gold sm:text-2xl">{siteConfig.sisterBrand.name}</span>
+  <span className="mt-2 whitespace-nowrap text-xs font-medium leading-relaxed text-white/70 sm:text-sm">
+    Our sister venture for trusted household staffing & home services in Amritsar.
+  </span>
+</span>
             </a>
           </div>
 
@@ -141,8 +146,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 border-t border-white/10 pt-7 text-center text-xs">
-          <p className="font-editorial text-sm italic text-gold/80">{siteConfig.tagline}</p>
-          <p className="mt-2">
+          <p className="mt-2 text-sm font-semibold">
             © 2026 Prime Journey INDIA. All Rights Reserved. · Website by{' '}
             <a data-testid="footer-credit" href={siteConfig.credit.url} target="_blank" rel="noopener noreferrer" className="font-bold text-gold transition-colors duration-200 hover:text-saffron">
               {siteConfig.credit.label}
