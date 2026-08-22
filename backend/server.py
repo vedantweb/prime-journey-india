@@ -31,13 +31,13 @@ ADMIN_INITIAL_PASSWORD = os.environ['ADMIN_INITIAL_PASSWORD']
 
 app = FastAPI()
 PACKAGE_SEEDS = [
-    {"id": "kashmir-escape", "name": "Kashmir Escape", "priceFrom": 39999, "priceTo": 29999, "saved": 10000},
-    {"id": "royal-rajasthan", "name": "Royal Rajasthan", "priceFrom": 44999, "priceTo": 34999, "saved": 10000},
-    {"id": "amritsar-heritage", "name": "Amritsar Heritage", "priceFrom": 14999, "priceTo": 9999, "saved": 5000},
-    {"id": "himachal-escape", "name": "Himachal Escape", "priceFrom": 27999, "priceTo": 21999, "saved": 6000},
-    {"id": "kerala-backwaters", "name": "Kerala Backwaters", "priceFrom": 36999, "priceTo": 28999, "saved": 8000},
-    {"id": "goa-getaway", "name": "Goa Getaway", "priceFrom": 19999, "priceTo": 14999, "saved": 5000},
-    {"id": "ladakh-explorer", "name": "Ladakh Explorer", "priceFrom": 45999, "priceTo": 36999, "saved": 9000},
+    {"id": "kashmir-escape", "name": "Kashmir Escape", "priceFrom": 39999, "priceTo": 29999, "saved": 10000, "nights": 6, "days": 7},
+    {"id": "royal-rajasthan", "name": "Royal Rajasthan", "priceFrom": 44999, "priceTo": 34999, "saved": 10000, "nights": 7, "days": 8},
+    {"id": "amritsar-heritage", "name": "Amritsar Heritage", "priceFrom": 14999, "priceTo": 9999, "saved": 5000, "nights": 2, "days": 3},
+    {"id": "himachal-escape", "name": "Himachal Escape", "priceFrom": 27999, "priceTo": 21999, "saved": 6000, "nights": 5, "days": 6},
+    {"id": "kerala-backwaters", "name": "Kerala Backwaters", "priceFrom": 36999, "priceTo": 28999, "saved": 8000, "nights": 5, "days": 6},
+    {"id": "goa-getaway", "name": "Goa Getaway", "priceFrom": 19999, "priceTo": 14999, "saved": 5000, "nights": 3, "days": 4},
+    {"id": "ladakh-explorer", "name": "Ladakh Explorer", "priceFrom": 45999, "priceTo": 36999, "saved": 9000, "nights": 6, "days": 7},
 ]
 
 
@@ -790,9 +790,12 @@ async def public_package_prices():
 # ---------------- admin package price management ----------------
 
 class AdminPackagePriceUpdate(BaseModel):
+    name: str = ""
     price_from: int = Field(ge=0)
     price_to: int = Field(ge=0)
     saved: int = Field(ge=0)
+    nights: int = Field(ge=0)
+    days: int = Field(ge=1)
 
 @api_router.get("/admin/packages")
 async def admin_packages(admin: dict = Depends(get_current_admin)):
@@ -815,9 +818,12 @@ async def admin_update_package_price(
         {"id": package_id},
         {
             "$set": {
+                "name": body.name.strip(),
                 "priceFrom": body.price_from,
                 "priceTo": body.price_to,
                 "saved": body.saved,
+                "nights": body.nights,
+                "days": body.days,
                 "updated_by": admin["key"],
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }
@@ -830,9 +836,12 @@ async def admin_update_package_price(
     return {
         "success": True,
         "packageId": package_id,
+        "name": body.name.strip(),
         "priceFrom": body.price_from,
         "priceTo": body.price_to,
         "saved": body.saved,
+        "nights": body.nights,
+        "days": body.days,
     }
 
 

@@ -232,14 +232,17 @@ export const adminService = {
     });
   },
 
-  updatePackagePrice(id, priceFrom, priceTo, saved) {
+  updatePackagePrice(id, name, priceFrom, priceTo, saved, nights, days) {
     return apiCall(`/admin/packages/${id}/price`, {
       method: 'PUT',
       token: adminService.session()?.token,
       body: {
+        name: String(name ?? '').trim(),
         price_from: Number(priceFrom),
         price_to: Number(priceTo),
         saved: Number(saved),
+        nights: Number(nights),
+        days: Number(days),
       },
     });
   },

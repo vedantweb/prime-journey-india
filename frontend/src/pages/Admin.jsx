@@ -137,6 +137,8 @@ export default function Admin() {
             from: Number(pkg.priceFrom ?? 0),
             to: Number(pkg.priceTo ?? 0),
             saved: Number(pkg.saved ?? 0),
+            nights: Number(pkg.nights ?? 0),
+            days: Number(pkg.days ?? 0),
           };
         });
         setPackagePrices(prices);
@@ -1377,6 +1379,8 @@ export default function Admin() {
                             from: linked.priceFrom,
                             to: linked.priceTo,
                             saved: linked.saved ?? (linked.priceFrom - linked.priceTo),
+                            nights: linked.nights ?? 0,
+                            days: linked.days ?? 0,
                           };
 
                           return (
@@ -1458,6 +1462,90 @@ export default function Admin() {
                                     />
                                   </label>
 
+                                  <label>
+                                    <span className="mb-1 block text-[9px] font-extrabold uppercase tracking-widest text-ink/40">
+                                      Nights
+                                    </span>
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      value={current.nights ?? 0}
+                                      onChange={(e) =>
+                                        setPackagePrices({
+                                          ...packagePrices,
+                                          [linked.id]: {
+                                            ...current,
+                                            nights: e.target.value,
+                                          },
+                                        })
+                                      }
+                                      className="w-24 rounded-xl border border-ocean/10 bg-white px-3 py-2.5 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                    />
+                                  </label>
+
+                                  <label>
+                                    <span className="mb-1 block text-[9px] font-extrabold uppercase tracking-widest text-ink/40">
+                                      Days
+                                    </span>
+                                    <input
+                                      type="number"
+                                      min="1"
+                                      value={current.days ?? 0}
+                                      onChange={(e) =>
+                                        setPackagePrices({
+                                          ...packagePrices,
+                                          [linked.id]: {
+                                            ...current,
+                                            days: e.target.value,
+                                          },
+                                        })
+                                      }
+                                      className="w-24 rounded-xl border border-ocean/10 bg-white px-3 py-2.5 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                    />
+                                  </label>
+
+                                  <label>
+                                    <span className="mb-1 block text-[9px] font-extrabold uppercase tracking-widest text-ink/40">
+                                      Nights
+                                    </span>
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      value={current.nights ?? 0}
+                                      onChange={(e) =>
+                                        setPackagePrices({
+                                          ...packagePrices,
+                                          [linked.id]: {
+                                            ...current,
+                                            nights: e.target.value,
+                                          },
+                                        })
+                                      }
+                                      className="w-24 rounded-xl border border-ocean/10 bg-white px-3 py-2.5 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                    />
+                                  </label>
+
+                                  <label>
+                                    <span className="mb-1 block text-[9px] font-extrabold uppercase tracking-widest text-ink/40">
+                                      Days
+                                    </span>
+                                    <input
+                                      type="number"
+                                      min="1"
+                                      value={current.days ?? 0}
+                                      onChange={(e) =>
+                                        setPackagePrices({
+                                          ...packagePrices,
+                                          [linked.id]: {
+                                            ...current,
+                                            days: e.target.value,
+                                          },
+                                        })
+                                      }
+                                      className="w-24 rounded-xl border border-ocean/10 bg-white px-3 py-2.5 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                    />
+                                  </label>
+
                                   <button
                                     type="button"
                                     disabled={packageSaving}
@@ -1465,6 +1553,8 @@ export default function Admin() {
                                       const from = Number(current.from);
                                       const to = Number(current.to);
                                       const savedAmount = Number(current.saved);
+                                      const nights = Number(current.nights);
+                                      const days = Number(current.days);
 
                                       if (
                                         current.from === "" ||
@@ -1480,9 +1570,13 @@ export default function Admin() {
                                         !Number.isFinite(from) ||
                                         !Number.isFinite(to) ||
                                         !Number.isFinite(savedAmount) ||
+                                        !Number.isFinite(nights) ||
+                                        !Number.isFinite(days) ||
                                         from < 0 ||
                                         to < 0 ||
-                                        savedAmount < 0
+                                        savedAmount < 0 ||
+                                        nights < 0 ||
+                                        days < 1
                                       ) {
                                         toast.error("Enter valid prices.");
                                         return;
@@ -1494,9 +1588,12 @@ export default function Admin() {
                                         const saved =
                                           await adminService.updatePackagePrice(
                                             linked.id,
+                                            linked.name,
                                             from,
                                             to,
-                                            savedAmount
+                                            savedAmount,
+                                            nights,
+                                            days
                                           );
 
                                         setPackagePrices({
@@ -1505,6 +1602,8 @@ export default function Admin() {
                                             from: Number(saved.priceFrom),
                                             to: Number(saved.priceTo),
                                             saved: Number(saved.saved ?? 0),
+                                            nights: Number(saved.nights ?? 0),
+                                            days: Number(saved.days ?? 0),
                                           },
                                         });
 
@@ -1551,9 +1650,12 @@ export default function Admin() {
                     <div className="grid gap-5 sm:grid-cols-2">
                       {packages.map((p) => {
                         const saved = packagePrices[p.id] || {
+                          name: p.name || '',
                           from: p.priceFrom,
                           to: p.priceTo,
                           saved: p.saved ?? (p.priceFrom - p.priceTo),
+                          nights: p.nights ?? 0,
+                          days: p.days ?? 1,
                         };
 
                         const editing = editingPackage === p.id;
@@ -1610,6 +1712,68 @@ export default function Admin() {
                               ) : (
                                 <div className="mt-5 rounded-2xl bg-cloud p-4">
                                   <div className="grid grid-cols-2 gap-3">
+                                    <label className="col-span-2">
+                                      <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wider text-ink/45">
+                                        Trip Name
+                                      </span>
+                                      <input
+                                        type="text"
+                                        value={saved.name ?? ''}
+                                        onChange={(e) =>
+                                          setPackagePrices({
+                                            ...packagePrices,
+                                            [p.id]: {
+                                              ...saved,
+                                              name: e.target.value,
+                                            },
+                                          })
+                                        }
+                                        className="w-full rounded-xl border border-ocean/10 bg-white px-3 py-3 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                      />
+                                    </label>
+
+                                    <label>
+                                      <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wider text-ink/45">
+                                        Nights
+                                      </span>
+                                      <input
+                                        type="number"
+                                        min="0"
+                                        value={saved.nights ?? 0}
+                                        onChange={(e) =>
+                                          setPackagePrices({
+                                            ...packagePrices,
+                                            [p.id]: {
+                                              ...saved,
+                                              nights: e.target.value,
+                                            },
+                                          })
+                                        }
+                                        className="w-full rounded-xl border border-ocean/10 bg-white px-3 py-3 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                      />
+                                    </label>
+
+                                    <label>
+                                      <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wider text-ink/45">
+                                        Days
+                                      </span>
+                                      <input
+                                        type="number"
+                                        min="1"
+                                        value={saved.days ?? 1}
+                                        onChange={(e) =>
+                                          setPackagePrices({
+                                            ...packagePrices,
+                                            [p.id]: {
+                                              ...saved,
+                                              days: e.target.value,
+                                            },
+                                          })
+                                        }
+                                        className="w-full rounded-xl border border-ocean/10 bg-white px-3 py-3 text-sm font-bold text-ocean outline-none focus:border-turq"
+                                      />
+                                    </label>
+
                                     <label>
                                       <span className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wider text-ink/45">
                                         From ₹
@@ -1687,36 +1851,60 @@ export default function Admin() {
                                       type="button"
                                       disabled={packageSaving}
                                       onClick={async () => {
+                                        const name = String(saved.name ?? '').trim();
                                         const from = Number(saved.from);
                                         const to = Number(saved.to);
+                                        const savedAmount = Number(saved.saved);
+                                        const nights = Number(saved.nights);
+                                        const days = Number(saved.days);
 
                                         if (
+                                          !name ||
                                           !Number.isFinite(from) ||
                                           !Number.isFinite(to) ||
+                                          !Number.isFinite(savedAmount) ||
+                                          !Number.isFinite(nights) ||
+                                          !Number.isFinite(days) ||
                                           from < 0 ||
-                                          to < from
+                                          to < 0 ||
+                                          to > from ||
+                                          savedAmount < 0 ||
+                                          nights < 0 ||
+                                          days < 1
                                         ) {
-                                          toast.error("Enter valid prices.");
+                                          toast.error("Enter valid trip details and prices.");
                                           return;
                                         }
 
                                         setPackageSaving(true);
 
                                         try {
-                                          await adminService.updatePackagePrice(
-                                            p.id,
-                                            from,
-                                            to
-                                          );
+                                          const updated =
+                                            await adminService.updatePackagePrice(
+                                              p.id,
+                                              name,
+                                              from,
+                                              to,
+                                              savedAmount,
+                                              nights,
+                                              days
+                                            );
 
                                           setPackagePrices({
                                             ...packagePrices,
-                                            [p.id]: { from, to },
+                                            [p.id]: {
+                                              name: updated.name ?? name,
+                                              from: Number(updated.priceFrom),
+                                              to: Number(updated.priceTo),
+                                              saved: Number(updated.saved ?? savedAmount),
+                                              nights: Number(updated.nights ?? nights),
+                                              days: Number(updated.days ?? days),
+                                            },
                                           });
 
                                           setEditingPackage(null);
                                           toast.success(
-                                            "Package price updated successfully."
+                                            "Trip name, duration and price updated successfully."
                                           );
                                         } catch (err) {
                                           toast.error(err.message);
