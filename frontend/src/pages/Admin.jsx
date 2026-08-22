@@ -1149,12 +1149,23 @@ export default function Admin() {
 
                                     <button
                                       type="button"
-                                      onClick={() => {
-                                        setReplyingTo(id);
-                                        setFeedbackReply({
-                                          ...feedbackReply,
-                                          [id]: feedbackReply[id] || '',
-                                        });
+                                      onClick={(event) => {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+
+                                        if (!item.email) {
+                                          toast.error('No email address available for this feedback.');
+                                          return;
+                                        }
+
+                                        const mailLink = document.createElement('a');
+                                        mailLink.href =
+                                          `mailto:${item.email}&subject=Regarding%20your%20feedback%20-%20Prime%20Journey%20India`;
+                                        mailLink.target = '_top';
+                                        mailLink.rel = 'noopener';
+                                        document.body.appendChild(mailLink);
+                                        mailLink.click();
+                                        mailLink.remove();
                                       }}
                                       className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white transition hover:bg-saffron hover:text-ocean-deep"
                                     >
@@ -1302,6 +1313,16 @@ export default function Admin() {
                             const from = Number(seasonalOfferPrices.from);
                             const to = Number(seasonalOfferPrices.to);
 
+                            if (
+                              seasonalOfferPrices.from === "" ||
+                              seasonalOfferPrices.to === "" ||
+                              seasonalOfferPrices.from == null ||
+                              seasonalOfferPrices.to == null
+                            ) {
+                              toast.info("Offer price is not available yet.");
+                              return;
+                            }
+
                             if (!Number.isFinite(from) || !Number.isFinite(to) || from < 0 || to < 0) {
                               toast.error("Enter valid prices.");
                               return;
@@ -1438,15 +1459,25 @@ export default function Admin() {
                                     onClick={async () => {
                                       const from = Number(current.from);
                                       const to = Number(current.to);
-                                      const saved = Number(current.saved);
+                                      const savedAmount = Number(current.saved);
+
+                                      if (
+                                        current.from === "" ||
+                                        current.to === "" ||
+                                        current.from == null ||
+                                        current.to == null
+                                      ) {
+                                        toast.info("Package price is not available yet.");
+                                        return;
+                                      }
 
                                       if (
                                         !Number.isFinite(from) ||
                                         !Number.isFinite(to) ||
-                                        !Number.isFinite(saved) ||
+                                        !Number.isFinite(savedAmount) ||
                                         from < 0 ||
                                         to < 0 ||
-                                        saved < 0
+                                        savedAmount < 0
                                       ) {
                                         toast.error("Enter valid prices.");
                                         return;
@@ -1460,7 +1491,7 @@ export default function Admin() {
                                             linked.id,
                                             from,
                                             to,
-                                            saved
+                                            savedAmount
                                           );
 
                                         setPackagePrices({
