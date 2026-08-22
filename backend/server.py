@@ -50,6 +50,25 @@ async def seed_missing_packages():
             upsert=True,
         )
 
+        # Backfill duration only when older production records do not have it.
+        await db.packages.update_one(
+            {
+                "id": package["id"],
+                "$or": [
+                    {"nights": {"$exists": False}},
+                    {"nights": None},
+                    {"days": {"$exists": False}},
+                    {"days": None},
+                ],
+            },
+            {
+                "$set": {
+                    "nights": package["nights"],
+                    "days": package["days"],
+                }
+            },
+        )
+
 api_router = APIRouter(prefix="/api")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
