@@ -1158,14 +1158,13 @@ export default function Admin() {
                                           return;
                                         }
 
-                                        const mailLink = document.createElement('a');
-                                        mailLink.href =
-                                          `mailto:${item.email}&subject=Regarding%20your%20feedback%20-%20Prime%20Journey%20India`;
-                                        mailLink.target = '_top';
-                                        mailLink.rel = 'noopener';
-                                        document.body.appendChild(mailLink);
-                                        mailLink.click();
-                                        mailLink.remove();
+                                        const subject = encodeURIComponent(
+                                          'Regarding your feedback - Prime Journey India'
+                                        );
+
+                                        window.location.assign(
+                                          `mailto:${item.email}&subject=${subject}`
+                                        );
                                       }}
                                       className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white transition hover:bg-saffron hover:text-ocean-deep"
                                     >
