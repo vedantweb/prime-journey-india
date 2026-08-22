@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, CloudRain, Snowflake, Sun } from 'lucide-react';
-import { packages, seasons } from '../data/packages';
+import { seasons } from '../data/packages';
+import usePackagePrices from '../hooks/usePackagePrices';
 import { EffectLayer } from './effects/EnvironmentEffects';
 import { SectionHeading, Reveal } from './Section';
 import { useUI } from '../context/UIContext';
@@ -14,6 +15,7 @@ export default function SeasonExplorer() {
   const season = seasons[active];
   const navigate = useNavigate();
   const { openBooking } = useUI();
+  const packages = usePackagePrices();
 
   return (
     <section id="seasons" data-testid="section-seasons" className="bg-white py-24 sm:py-32">
