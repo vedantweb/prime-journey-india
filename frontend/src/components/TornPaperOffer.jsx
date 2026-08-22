@@ -6,8 +6,11 @@ import { ArrowRight } from 'lucide-react';
 
 export default function TornPaperOffer() {
   const [offerPrices, setOfferPrices] = useState({
+    name: tornOffer.title || 'Kashmir Escape',
     from: tornOffer.priceFrom,
     to: tornOffer.priceTo,
+    nights: tornOffer.nights ?? 6,
+    days: tornOffer.days ?? 7,
   });
 
   useEffect(() => {
@@ -18,8 +21,11 @@ export default function TornPaperOffer() {
       .then((data) => {
         if (data) {
           setOfferPrices({
+            name: data.name || tornOffer.title || 'Kashmir Escape',
             from: Number(data.price_from),
             to: Number(data.price_to),
+            nights: Number(data.nights ?? 6),
+            days: Number(data.days ?? 7),
           });
         }
       })
@@ -75,19 +81,19 @@ export default function TornPaperOffer() {
               </p>
 
               <h3 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight text-ocean sm:text-5xl">
-                {tornOffer.title}
+                {offerPrices.name}
               </h3>
 
               <button
                 data-testid="offer-get-price"
-                onClick={() => openBooking('Kashmir Escape')}
+                onClick={() => openBooking(offerPrices.name)}
                 className="btn-arrow mx-auto mt-8 flex items-center gap-2 rounded-full bg-saffron px-8 py-4 font-display text-base font-extrabold text-ocean-deep shadow-md transition-colors duration-300 hover:bg-gold"
               >
                 Get Price <ArrowRight size={17} />
               </button>
 
               <p className="mt-3 text-sm font-semibold text-ink/60">
-                {tornOffer.duration} · per person
+                {offerPrices.nights} Nights · {offerPrices.days} Days · per person
               </p>
             </div>
           </div>

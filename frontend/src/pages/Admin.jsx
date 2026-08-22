@@ -104,7 +104,13 @@ export default function Admin() {
   const [editingPackage, setEditingPackage] = useState(null);
   const [packagePrices, setPackagePrices] = useState({});
   const [packageSaving, setPackageSaving] = useState(false);
-  const [seasonalOfferPrices, setSeasonalOfferPrices] = useState({ from: 39999, to: 29999 });
+  const [seasonalOfferPrices, setSeasonalOfferPrices] = useState({
+    name: 'Kashmir Escape',
+    from: 39999,
+    to: 29999,
+    nights: 6,
+    days: 7,
+  });
   const [seasonalOfferSaving, setSeasonalOfferSaving] = useState(false);
   const [tripImages, setTripImages] = useState([]);
   const [teamPhotos, setTeamPhotos] = useState([]);
@@ -153,8 +159,11 @@ export default function Admin() {
 
     adminService.seasonalOffer()
       .then((d) => setSeasonalOfferPrices({
+        name: d.name || 'Kashmir Escape',
         from: Number(d.price_from),
         to: Number(d.price_to),
+        nights: Number(d.nights ?? 6),
+        days: Number(d.days ?? 7),
       }))
       .catch(() => {});
 
@@ -1263,6 +1272,60 @@ export default function Admin() {
                       </div>
 
                       <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                        <label className="sm:col-span-2">
+                          <span className="mb-2 block text-[10px] font-extrabold uppercase tracking-widest text-ink/45">
+                            Offer / Trip Name
+                          </span>
+                          <input
+                            type="text"
+                            value={seasonalOfferPrices.name}
+                            onChange={(e) =>
+                              setSeasonalOfferPrices({
+                                ...seasonalOfferPrices,
+                                name: e.target.value,
+                              })
+                            }
+                            className="w-full rounded-xl border border-ocean/10 bg-cloud px-4 py-3 text-sm font-bold text-ocean outline-none focus:border-turq"
+                            placeholder="e.g. Kashmir Escape"
+                          />
+                        </label>
+
+                        <label>
+                          <span className="mb-2 block text-[10px] font-extrabold uppercase tracking-widest text-ink/45">
+                            Nights
+                          </span>
+                          <input
+                            type="number"
+                            min="0"
+                            value={seasonalOfferPrices.nights}
+                            onChange={(e) =>
+                              setSeasonalOfferPrices({
+                                ...seasonalOfferPrices,
+                                nights: e.target.value,
+                              })
+                            }
+                            className="w-full rounded-xl border border-ocean/10 bg-cloud px-4 py-3 text-sm font-bold text-ocean outline-none focus:border-turq"
+                          />
+                        </label>
+
+                        <label>
+                          <span className="mb-2 block text-[10px] font-extrabold uppercase tracking-widest text-ink/45">
+                            Days
+                          </span>
+                          <input
+                            type="number"
+                            min="1"
+                            value={seasonalOfferPrices.days}
+                            onChange={(e) =>
+                              setSeasonalOfferPrices({
+                                ...seasonalOfferPrices,
+                                days: e.target.value,
+                              })
+                            }
+                            className="w-full rounded-xl border border-ocean/10 bg-cloud px-4 py-3 text-sm font-bold text-ocean outline-none focus:border-turq"
+                          />
+                        </label>
+
                         <label>
                           <span className="mb-2 block text-[10px] font-extrabold uppercase tracking-widest text-ink/45">
                             Cut / Original Price ₹
@@ -1338,11 +1401,39 @@ export default function Admin() {
                             setSeasonalOfferSaving(true);
 
                             try {
-                              const saved = await adminService.updateSeasonalOffer(from, to);
+                              const name = String(seasonalOfferPrices.name || '').trim();
+                              const nights = Number(seasonalOfferPrices.nights);
+                              const days = Number(seasonalOfferPrices.days);
+
+                              if (!name) {
+                                toast.error("Enter an offer / trip name.");
+                                return;
+                              }
+
+                              if (
+                                !Number.isFinite(nights) ||
+                                !Number.isFinite(days) ||
+                                nights < 0 ||
+                                days < 1
+                              ) {
+                                toast.error("Enter valid nights and days.");
+                                return;
+                              }
+
+                              const saved = await adminService.updateSeasonalOffer(
+                                name,
+                                from,
+                                to,
+                                nights,
+                                days
+                              );
 
                               setSeasonalOfferPrices({
+                                name: saved.name || name,
                                 from: Number(saved.price_from),
                                 to: Number(saved.price_to),
+                                nights: Number(saved.nights),
+                                days: Number(saved.days),
                               });
 
                               toast.success("Hero & seasonal offer price updated.");

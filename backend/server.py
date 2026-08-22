@@ -872,29 +872,44 @@ async def admin_update_package_price(
 @api_router.get("/public/seasonal-offer")
 async def public_seasonal_offer():
     doc = await db.admin_content.find_one({"key": "seasonal_offer_prices"}, {"_id": 0})
+
     if not doc:
         return {
+            "name": "Kashmir Escape",
             "price_from": 39999,
             "price_to": 29999,
+            "nights": 6,
+            "days": 7,
         }
+
     return {
+        "name": doc.get("name", "Kashmir Escape"),
         "price_from": doc.get("price_from", 39999),
         "price_to": doc.get("price_to", 29999),
+        "nights": doc.get("nights", 6),
+        "days": doc.get("days", 7),
     }
 
 
 @api_router.get("/admin/seasonal-offer")
 async def admin_seasonal_offer(admin: dict = Depends(get_current_admin)):
     doc = await db.admin_content.find_one({"key": "seasonal_offer_prices"}, {"_id": 0})
+
     return {
+        "name": doc.get("name", "Kashmir Escape") if doc else "Kashmir Escape",
         "price_from": doc.get("price_from", 39999) if doc else 39999,
         "price_to": doc.get("price_to", 29999) if doc else 29999,
+        "nights": doc.get("nights", 6) if doc else 6,
+        "days": doc.get("days", 7) if doc else 7,
     }
 
 
 class SeasonalOfferPriceUpdate(BaseModel):
+    name: str = ""
     price_from: int = Field(ge=0)
     price_to: int = Field(ge=0)
+    nights: int = Field(ge=0)
+    days: int = Field(ge=1)
 
 
 @api_router.put("/admin/seasonal-offer")
@@ -902,13 +917,21 @@ async def update_seasonal_offer(
     body: SeasonalOfferPriceUpdate,
     admin: dict = Depends(get_current_admin),
 ):
+    name = body.name.strip()
+
+    if not name:
+        raise HTTPException(status_code=400, detail="Offer name is required.")
+
     await db.admin_content.update_one(
         {"key": "seasonal_offer_prices"},
         {
             "$set": {
                 "key": "seasonal_offer_prices",
+                "name": name,
                 "price_from": body.price_from,
                 "price_to": body.price_to,
+                "nights": body.nights,
+                "days": body.days,
                 "updated_by": admin["key"],
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }
@@ -918,8 +941,11 @@ async def update_seasonal_offer(
 
     return {
         "success": True,
+        "name": name,
         "price_from": body.price_from,
         "price_to": body.price_to,
+        "nights": body.nights,
+        "days": body.days,
     }
 
 

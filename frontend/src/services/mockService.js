@@ -252,13 +252,16 @@ export const adminService = {
     });
   },
 
-  updateSeasonalOffer(priceFrom, priceTo) {
+  updateSeasonalOffer(name, priceFrom, priceTo, nights, days) {
     return apiCall('/admin/seasonal-offer', {
       method: 'PUT',
       token: adminService.session()?.token,
       body: {
+        name: String(name ?? '').trim(),
         price_from: Number(priceFrom),
         price_to: Number(priceTo),
+        nights: Number(nights),
+        days: Number(days),
       },
     });
   },
