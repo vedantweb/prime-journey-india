@@ -108,18 +108,66 @@ export const enquiryService = {
 
 const headers = (token) => ({ 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) });
 
-const apiCall = async (path, { method = 'GET', body, token } = {}) => {
-  const res = await fetch(`${API}${path}`, {
-    method,
-    headers: headers(token),
-    body: body ? JSON.stringify(body) : undefined,
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const detail = data.detail;
-    throw new Error(typeof detail === 'string' ? detail : 'Something went wrong.');
+const getAdminErrorMessage = (status, detail) => {
+  if (status === 401 || status === 403) {
+    return 'Your admin session has expired. Please log in again.';
   }
-  return data;
+
+  if (status === 404) {
+    return 'This information is not available right now.';
+  }
+
+  if (status === 409) {
+    return 'This information could not be updated because it has changed. Please refresh and try again.';
+  }
+
+  if (status >= 500) {
+    return 'Something went wrong on the server. Please try again in a moment.';
+  }
+
+  if (!navigator.onLine) {
+    return 'No internet connection. Please check your connection and try again.';
+  }
+
+  if (typeof detail === 'string' && detail.trim()) {
+    const safeMessages = [
+      'Invalid credentials.',
+      'Current password is incorrect.',
+      'New password must be different from the current password.',
+      'New password must be at least 8 characters.',
+    ];
+
+    if (safeMessages.includes(detail.trim())) {
+      return detail.trim();
+    }
+  }
+
+  return 'We could not complete this request. Please check the information and try again.';
+};
+
+const apiCall = async (path, { method = 'GET', body, token } = {}) => {
+  try {
+    const res = await fetch(`${API}${path}`, {
+      method,
+      headers: headers(token),
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      const detail = data.detail;
+      throw new Error(getAdminErrorMessage(res.status, detail));
+    }
+
+    return data;
+  } catch (err) {
+    if (err instanceof TypeError || err.name === 'AbortError') {
+      throw new Error('Unable to connect right now. Please check your connection and try again.');
+    }
+
+    throw err;
+  }
 };
 
 export const adminService = {

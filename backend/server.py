@@ -30,6 +30,26 @@ JWT_ALG = 'HS256'
 ADMIN_INITIAL_PASSWORD = os.environ['ADMIN_INITIAL_PASSWORD']
 
 app = FastAPI()
+PACKAGE_SEEDS = [
+    {"id": "kashmir-escape", "name": "Kashmir Escape", "priceFrom": 39999, "priceTo": 29999, "saved": 10000},
+    {"id": "royal-rajasthan", "name": "Royal Rajasthan", "priceFrom": 44999, "priceTo": 34999, "saved": 10000},
+    {"id": "amritsar-heritage", "name": "Amritsar Heritage", "priceFrom": 14999, "priceTo": 9999, "saved": 5000},
+    {"id": "himachal-escape", "name": "Himachal Escape", "priceFrom": 27999, "priceTo": 21999, "saved": 6000},
+    {"id": "kerala-backwaters", "name": "Kerala Backwaters", "priceFrom": 36999, "priceTo": 28999, "saved": 8000},
+    {"id": "goa-getaway", "name": "Goa Getaway", "priceFrom": 19999, "priceTo": 14999, "saved": 5000},
+    {"id": "ladakh-explorer", "name": "Ladakh Explorer", "priceFrom": 45999, "priceTo": 36999, "saved": 9000},
+]
+
+
+@app.on_event("startup")
+async def seed_missing_packages():
+    for package in PACKAGE_SEEDS:
+        await db.packages.update_one(
+            {"id": package["id"]},
+            {"$setOnInsert": package},
+            upsert=True,
+        )
+
 api_router = APIRouter(prefix="/api")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

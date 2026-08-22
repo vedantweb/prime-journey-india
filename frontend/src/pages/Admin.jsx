@@ -128,6 +128,21 @@ export default function Admin() {
   useEffect(() => {
     if (stage !== 'panel') return;
     adminService.overview().then(setOverview).catch(() => {});
+
+    adminService.packages()
+      .then((d) => {
+        const prices = {};
+        (d.packages || []).forEach((pkg) => {
+          prices[pkg.id] = {
+            from: Number(pkg.priceFrom ?? 0),
+            to: Number(pkg.priceTo ?? 0),
+            saved: Number(pkg.saved ?? 0),
+          };
+        });
+        setPackagePrices(prices);
+      })
+      .catch(() => {});
+
     adminService.enquiries().then((d) => setEnquiries(d.enquiries)).catch(() => setEnquiries(enquiryService.list().slice().reverse()));
     adminService.feedback().then((d) => setFeedback(d.feedback || [])).catch(() => setFeedback([]));
     adminService.tripImages()
