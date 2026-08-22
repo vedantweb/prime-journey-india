@@ -1147,30 +1147,32 @@ export default function Admin() {
                                       ))}
                                     </div>
 
-                                    <button
-                                      type="button"
-                                      onClick={(event) => {
-                                        event.preventDefault();
-                                        event.stopPropagation();
-
-                                        if (!item.email) {
-                                          toast.error('No email address available for this feedback.');
-                                          return;
-                                        }
-
-                                        const subject = encodeURIComponent(
+                                    {item.email ? (
+                                      <a
+                                        href={`mailto:${item.email}&subject=${encodeURIComponent(
                                           'Regarding your feedback - Prime Journey India'
-                                        );
-
-                                        window.location.assign(
-                                          `mailto:${item.email}&subject=${subject}`
-                                        );
-                                      }}
-                                      className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white transition hover:bg-saffron hover:text-ocean-deep"
-                                    >
-                                      <MessageSquare size={14} />
-                                      Reply
-                                    </button>
+                                        )}`}
+                                        target="_top"
+                                        onClick={(event) => event.stopPropagation()}
+                                        className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white transition hover:bg-saffron hover:text-ocean-deep"
+                                      >
+                                        <MessageSquare size={14} />
+                                        Reply
+                                      </a>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={(event) => {
+                                          event.preventDefault();
+                                          event.stopPropagation();
+                                          toast.error('No email address available for this feedback.');
+                                        }}
+                                        className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white"
+                                      >
+                                        <MessageSquare size={14} />
+                                        Reply
+                                      </button>
+                                    )}
                                   </div>
 
                                   {replyingTo === id && (
