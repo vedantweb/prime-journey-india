@@ -25,10 +25,18 @@ export default function usePackagePrices() {
 
             if (!override) return pkg;
 
+            const nights = Number(override.nights ?? pkg.nights ?? 0);
+            const days = Number(override.days ?? pkg.days ?? (nights + 1));
+
             return {
               ...pkg,
-              priceFrom: Number(override.price_from),
-              priceTo: Number(override.price_to),
+              name: override.name || pkg.name,
+              priceFrom: Number(override.price_from ?? pkg.priceFrom),
+              priceTo: Number(override.price_to ?? pkg.priceTo),
+              saved: Number(override.saved ?? pkg.saved ?? Math.max(0, pkg.priceFrom - pkg.priceTo)),
+              nights,
+              days,
+              duration: `${nights} Nights / ${days} Days`,
             };
           })
         );

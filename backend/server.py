@@ -772,16 +772,19 @@ async def admin_delete_trip_image(
 async def public_package_prices():
     docs = await db.packages.find(
         {},
-        {"_id": 0, "id": 1, "priceFrom": 1, "priceTo": 1, "saved": 1}
+        {"_id": 0, "id": 1, "name": 1, "priceFrom": 1, "priceTo": 1, "saved": 1, "nights": 1, "days": 1}
     ).to_list(500)
 
     return {
         "packages": [
             {
                 "package_id": d["id"],
+                "name": d.get("name", ""),
                 "price_from": d.get("priceFrom", 0),
                 "price_to": d.get("priceTo", 0),
                 "saved": d.get("saved", max(0, d.get("priceFrom", 0) - d.get("priceTo", 0))),
+                "nights": d.get("nights", 0),
+                "days": d.get("days", 1),
             }
             for d in docs
         ]
