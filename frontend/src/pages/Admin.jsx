@@ -1149,29 +1149,18 @@ export default function Admin() {
 
                                     {item.email ? (
                                       <a
-                                        href={`mailto:${item.email}&subject=${encodeURIComponent(
-                                          'Regarding your feedback - Prime Journey India'
-                                        )}`}
+                                        href={`mailto:${item.email}&subject=Regarding%20your%20feedback%20-%20Prime%20Journey%20India`}
                                         target="_top"
-                                        onClick={(event) => event.stopPropagation()}
                                         className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white transition hover:bg-saffron hover:text-ocean-deep"
                                       >
                                         <MessageSquare size={14} />
                                         Reply
                                       </a>
                                     ) : (
-                                      <button
-                                        type="button"
-                                        onClick={(event) => {
-                                          event.preventDefault();
-                                          event.stopPropagation();
-                                          toast.error('No email address available for this feedback.');
-                                        }}
-                                        className="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs font-bold text-white"
-                                      >
+                                      <span className="flex items-center gap-2 rounded-full bg-ink/10 px-5 py-2.5 text-xs font-bold text-ink/40">
                                         <MessageSquare size={14} />
-                                        Reply
-                                      </button>
+                                        No Email
+                                      </span>
                                     )}
                                   </div>
 
