@@ -204,6 +204,23 @@ export const destinations = [
     keywords: ['northeast', 'meghalaya', 'sikkim', 'shillong', 'cherrapunji', 'waterfall', 'root bridge', 'monsoon'],
   },
   {
+    id: 'ladakh',
+    name: 'Ladakh',
+    tagline: 'High roads, endless skies and impossible blues.',
+    image: img('1652204597589-962156b9483d', 1200),
+    alt: 'Pangong Lake in Ladakh beneath barren Himalayan peaks',
+    size: 'wide',
+    intro: 'From Leh’s mountain monasteries to Nubra’s valleys and Pangong’s famous blue waters, Ladakh is a high-altitude journey made for travellers who want something extraordinary. Plan your Ladakh trip from Amritsar with a carefully arranged itinerary, comfortable stays and private mountain transfers.',
+    bestTime: 'May – September',
+    highlights: ['Leh acclimatisation & local exploration', 'Nubra Valley & Hunder dunes', 'Pangong Tso sunrise and sunset', 'Thiksey Monastery & Himalayan roads'],
+    gallery: [
+      { src: img('1600356033695-a003690a6351', 1200), alt: 'Pangong Lake panorama in vivid turquoise' },
+      { src: img('1593118845043-359e5f628214', 1200), alt: 'Prayer flags above Pangong Lake' },
+      { src: img('1581793745862-99fde7fa73d2', 1200), alt: 'Cyclists travelling on a high Ladakhi mountain road' },
+    ],
+    keywords: ['ladakh', 'ladakh tour package', 'ladakh holiday package', 'ladakh trip', 'ladakh trip from amritsar', 'ladakh tour from amritsar', 'ladakh travel agency', 'leh', 'nubra', 'pangong', 'khardung la'],
+  },
+  {
     id: 'uttarakhand',
     name: 'Uttarakhand',
     tagline: 'The land of gods and glaciers.',

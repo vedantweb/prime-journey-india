@@ -56,7 +56,7 @@ export default function ContactRail() {
   return (
     <>
       {/* desktop vertical rail */}
-      <div data-testid="contact-rail" className="fixed right-4 top-1/2 z-[90] hidden -translate-y-1/2 flex-col gap-2.5 md:flex">
+      <div data-testid="contact-rail" className="fixed right-4 top-[42%] z-[90] hidden -translate-y-1/2 flex-col gap-2.5 md:flex">
         {items.map(renderItem)}
       </div>
 

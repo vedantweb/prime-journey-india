@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, CalendarCheck, Check, MapPin } from 'lucide-react';
 import { destinations } from '../data/destinations';
@@ -16,75 +16,49 @@ export default function DestinationDetail() {
   const packages = usePackagePrices();
   const d = destinations.find((x) => x.id === id);
 
-  useEffect(() => {
-    if (!d) return;
+  const seo = {
+    kashmir: {
+      title: 'Kashmir Tour Packages from Amritsar | Prime Journey India',
+      description: 'Plan a Kashmir trip from Amritsar with Prime Journey India. Explore Srinagar, Gulmarg, Pahalgam and more with customized Kashmir tour packages.',
+    },
+    rajasthan: {
+      title: 'Rajasthan Tour Packages from Amritsar | Prime Journey India',
+      description: 'Explore Jaipur, Jodhpur, Udaipur and Jaisalmer with customized Rajasthan tour packages from Amritsar by Prime Journey India.',
+    },
+    amritsar: {
+      title: 'Best Travel Agency in Amritsar | Prime Journey India',
+      description: 'Prime Journey India is a travel agency in Amritsar offering customized holidays, India tour packages and trips to Kashmir, Himachal, Ladakh, Rajasthan and more.',
+    },
+    himachal: {
+      title: 'Himachal Tour Packages from Amritsar | Prime Journey India',
+      description: 'Plan a Himachal trip from Amritsar with Prime Journey India. Explore Manali, Shimla, Solang Valley and the Himalayan mountains with customized tour packages.',
+    },
+    kerala: {
+      title: 'Kerala Tour Packages from Amritsar | Prime Journey India',
+      description: 'Discover Kerala from Amritsar with customized holiday packages covering Munnar, Alleppey, Kochi and the famous Kerala backwaters.',
+    },
+    goa: {
+      title: 'Goa Tour Packages from Amritsar | Prime Journey India',
+      description: 'Plan your Goa holiday from Amritsar with Prime Journey India. Customized Goa tour packages, beaches, heritage and unforgettable coastal experiences.',
+    },
+    ladakh: {
+      title: 'Ladakh Tour Packages from Amritsar | Prime Journey India',
+      description: 'Plan a Ladakh trip from Amritsar with Prime Journey India. Explore Leh, Nubra Valley and Pangong Lake with a customized 6 Nights / 7 Days Ladakh tour.',
+    },
+    northeast: {
+      title: 'Northeast India Tour Packages from Amritsar | Prime Journey India',
+      description: 'Explore Meghalaya, Sikkim and Northeast India from Amritsar with customized holiday and tour packages by Prime Journey India.',
+    },
+    uttarakhand: {
+      title: 'Uttarakhand Tour Packages from Amritsar | Prime Journey India',
+      description: 'Plan an Uttarakhand trip from Amritsar with Prime Journey India. Explore Rishikesh, Auli, Nainital and the Himalayan landscapes with customized tours.',
+    },
+  };
 
-    const seo = {
-      kashmir: {
-        title: 'Kashmir Tour Packages from Amritsar | Prime Journey India',
-        description: 'Plan a Kashmir trip from Amritsar with Prime Journey India. Explore Srinagar, Gulmarg, Pahalgam and more with customized Kashmir tour packages.',
-      },
-      rajasthan: {
-        title: 'Rajasthan Tour Packages from Amritsar | Prime Journey India',
-        description: 'Explore Jaipur, Jodhpur, Udaipur and Jaisalmer with customized Rajasthan tour packages from Amritsar by Prime Journey India.',
-      },
-      amritsar: {
-        title: 'Best Travel Agency in Amritsar | Prime Journey India',
-        description: 'Prime Journey India is a travel agency in Amritsar offering customized holidays, India tour packages and trips to Kashmir, Himachal, Ladakh, Rajasthan and more.',
-      },
-      himachal: {
-        title: 'Himachal Tour Packages from Amritsar | Prime Journey India',
-        description: 'Plan a Himachal trip from Amritsar with Prime Journey India. Explore Manali, Shimla, Solang Valley and the Himalayan mountains with customized tour packages.',
-      },
-      kerala: {
-        title: 'Kerala Tour Packages from Amritsar | Prime Journey India',
-        description: 'Discover Kerala from Amritsar with customized holiday packages covering Munnar, Alleppey, Kochi and the famous Kerala backwaters.',
-      },
-      goa: {
-        title: 'Goa Tour Packages from Amritsar | Prime Journey India',
-        description: 'Plan your Goa holiday from Amritsar with Prime Journey India. Customized Goa tour packages, beaches, heritage and unforgettable coastal experiences.',
-      },
-      ladakh: {
-        title: 'Ladakh Tour Packages from Amritsar | Prime Journey India',
-        description: 'Plan a Ladakh trip from Amritsar with Prime Journey India. Explore Leh, Nubra Valley and Pangong Lake with a customized 6 Nights / 7 Days Ladakh tour.',
-      },
-      northeast: {
-        title: 'Northeast India Tour Packages from Amritsar | Prime Journey India',
-        description: 'Explore Meghalaya, Sikkim and Northeast India from Amritsar with customized holiday and tour packages by Prime Journey India.',
-      },
-      uttarakhand: {
-        title: 'Uttarakhand Tour Packages from Amritsar | Prime Journey India',
-        description: 'Plan an Uttarakhand trip from Amritsar with Prime Journey India. Explore Rishikesh, Auli, Nainital and the Himalayan landscapes with customized tours.',
-      },
-    };
-
-    const data = seo[d.id] || {
-      title: `${d.name} Tour Packages from Amritsar | Prime Journey India`,
-      description: `Plan a customized ${d.name} trip from Amritsar with Prime Journey India.`,
-    };
-
-    document.title = data.title;
-
-    const setMeta = (name, content) => {
-      let el = document.querySelector(`meta[name="${name}"]`);
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute('name', name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', content);
-    };
-
-    setMeta('description', data.description);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', `https://primejourneyindia.com/destinations/${d.id}`);
-  }, [d]);
+  const seoData = seo[d?.id] || {
+    title: d ? `${d.name} Tour Packages from Amritsar | Prime Journey India` : 'Travel Destinations | Prime Journey India',
+    description: d ? `Plan a customized ${d.name} trip from Amritsar with Prime Journey India.` : 'Explore travel destinations and customized tour packages from Prime Journey India.',
+  };
 
   if (!d) {
     return (
@@ -98,8 +72,27 @@ export default function DestinationDetail() {
   const relatedPackages = packages.filter((p) => p.destination.toLowerCase() === d.id || p.route.toLowerCase().includes(d.name.toLowerCase()));
   const relatedExperiences = experiences.filter((e) => e.destId === d.id);
 
+  const canonicalUrl = `https://primejourneyindia.com/destinations/${d.id}`;
+
   return (
-    <div data-testid={`destination-page-${d.id}`}>
+    <>
+      <Helmet>
+        <title>{seoData.title}</title>
+        <meta name="description" content={seoData.description} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={seoData.title} />
+        <meta property="og:description" content={seoData.description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={d.image} />
+        <meta property="og:site_name" content="Prime Journey India" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoData.title} />
+        <meta name="twitter:description" content={seoData.description} />
+        <meta name="twitter:image" content={d.image} />
+      </Helmet>
+      <div data-testid={`destination-page-${d.id}`}>
+
       <section className="relative flex h-[56vh] min-h-[400px] items-end overflow-hidden">
         <img src={d.image} alt={d.alt} className="hero-zoom absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep/85 via-ocean-deep/25 to-ocean-deep/30" />
@@ -204,5 +197,6 @@ export default function DestinationDetail() {
         </section>
       )}
     </div>
+    </>
   );
 }

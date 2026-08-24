@@ -43,6 +43,7 @@ export default function Hero() {
 
   const [index, setIndex] = useState(0);
   const [prev, setPrev] = useState(null);
+  const [heroImageReady, setHeroImageReady] = useState(false);
   const { openBooking } = useUI();
   const slide = heroSlides[index];
   const [firstWord, ...restWords] = slide.headline.split(' ');
@@ -102,14 +103,19 @@ export default function Hero() {
           decoding="async"
           width="2000"
           height="1125"
+          onLoad={() => {
+            if (s.key === heroSlides[0].key) {
+              setHeroImageReady(true);
+            }
+          }}
         />
       </motion.div>
       <div className={`absolute inset-0 bg-gradient-to-b ${TINTS[s.theme]}`} />
       <div className="pointer-events-none absolute left-0 top-[28%] h-[48%] w-[68%] bg-gradient-to-b from-black/42 via-black/22 to-transparent blur-[18px]" />
       <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ocean-deep/55 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-ocean-deep/70 via-ocean-deep/10 to-transparent" />
-      {incoming && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.6, delay: 0.4 }}>
+      {incoming && heroImageReady && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.6, delay: 0.15 }}>
           <EffectLayer effects={s.effects} />
         </motion.div>
       )}
@@ -140,9 +146,15 @@ export default function Hero() {
       </motion.div>
 
       {/* floating brand title over hero image */}
-      <div className="pointer-events-none absolute left-1/2 top-[3%] z-40 -translate-x-1/2 text-center sm:left-[64%] sm:top-[5%] select-none">
-        <p className="font-[Montserrat] font-extrabold uppercase whitespace-nowrap text-[32px] sm:text-[54px] lg:text-[58px] leading-none tracking-[0.015em] text-[#082B52] drop-shadow-[0_4px_3px_rgba(255,255,255,0.9)]">
-          PRIME JOURNEY <span className="text-[#F39A2F]">INDIA</span>
+      <div className="pointer-events-none absolute left-1/2 top-[3%] z-40 -translate-x-1/2 text-center sm:left-[66%] sm:top-[5%] select-none">
+        <p className="font-[Montserrat] font-bold uppercase whitespace-nowrap text-[32px] sm:text-[58px] lg:text-[65px] leading-none tracking-[0.035em] transform scale-y-[1.12]">
+          <span
+            className="text-white"
+
+          >
+            PRIME JOURNEY
+          </span>{' '}
+          <span className="text-[#F39A2F]">INDIA</span>
         </p>
       </div>
 
@@ -167,20 +179,24 @@ export default function Hero() {
               <motion.p
                 variants={fadeUp}
                 data-testid="hero-eyebrow"
-                className="mb-5 flex items-center gap-3 font-body text-[11px] font-extrabold uppercase tracking-[0.38em] text-[#FFD36A] drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] sm:text-xs"
+                className="mb-5 flex items-center gap-3 font-body text-[11px] font-bold uppercase tracking-[0.32em] text-[#E2C98A] sm:text-xs"
               >
-                <span className="h-px w-10 bg-gold shadow-[0_0_10px_rgba(255,193,7,0.45)]" />
+                <span className="h-px w-10 bg-[#E2C98A]" />
                 {slide.eyebrow}
               </motion.p>
 
-              <h1 className="font-display font-bold leading-[0.91] tracking-[-0.025em] text-white text-shadow-hero">
+              <h1 className="font-display font-semibold leading-[0.94] tracking-[-0.035em] text-[#F8F5EE]">
                 {slide.headlineLines ? (
                   slide.headlineLines.map((line, li) => (
                     <span key={line} className="block overflow-hidden">
                       <motion.span
                         variants={clipUp}
                         data-testid={li === 0 ? 'hero-headline' : undefined}
-                        className={`block text-[2.5rem] sm:text-[3.05rem] lg:text-[3.65rem] leading-[0.95] ${li === slide.headlineLines.length - 1 ? 'text-[#FFD36A]' : ''}`}
+                        className={`block text-[2.5rem] sm:text-[3.05rem] lg:text-[3.65rem] leading-[0.96] ${
+                          li === slide.headlineLines.length - 1
+                            ? 'text-[#E2C98A]'
+                            : 'text-[#F8F5EE]'
+                        }`}
                       >
                         {line}
                       </motion.span>
@@ -191,7 +207,7 @@ export default function Hero() {
                     <span className="block overflow-hidden">
                       <motion.span
                         variants={clipUp}
-                        className="block font-body text-lg font-bold uppercase tracking-[0.3em] text-white/90 sm:text-xl"
+                        className="block font-body text-lg font-bold uppercase tracking-[0.3em] text-[#F7F1E3]/90 sm:text-xl"
                       >
                         {firstWord}
                       </motion.span>
@@ -213,7 +229,7 @@ export default function Hero() {
               <motion.p
                 variants={fadeUp}
                 data-testid="hero-sub"
-                className="mt-5 max-w-[430px] font-body text-[15px] font-semibold leading-[1.65] text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.28)] sm:text-lg lg:text-xl"
+                className="mt-5 max-w-[430px] font-body text-[15px] font-semibold leading-[1.65] text-[#E8E2D5] drop-shadow-[0_2px_8px_rgba(0,0,0,0.32)] sm:text-lg lg:text-xl"
               >
                 {slide.sub}
               </motion.p>

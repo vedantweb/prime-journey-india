@@ -47,6 +47,45 @@ function LenisRoot() {
 function Shell() {
   const { pathname } = useLocation();
   const isAdmin = pathname.startsWith('/admin');
+
+  useEffect(() => {
+    if (isAdmin) return;
+
+    const existing = document.getElementById('prime-journey-structured-data');
+    if (existing) existing.remove();
+
+    const script = document.createElement('script');
+    script.id = 'prime-journey-structured-data';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'TravelAgency',
+      name: 'Prime Journey India',
+      url: 'https://primejourneyindia.com/',
+      telephone: '+91 8699913245',
+      email: 'contact@primejourneyindia.com',
+      description: 'Travel agency in Amritsar offering customized India tours and holiday packages.',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Baba Deep Singh Avenue, Near Punjab National Bank, Nangli Branch',
+        addressLocality: 'Amritsar',
+        addressRegion: 'Punjab',
+        postalCode: '143001',
+        addressCountry: 'IN'
+      },
+      areaServed: 'India',
+      priceRange: '₹₹',
+      sameAs: [
+        'https://www.instagram.com/primejourneyindia/'
+      ]
+    });
+
+    document.head.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, [isAdmin]);
   return (
     <div className="min-h-screen bg-white font-body text-ink">
       <LenisRoot />

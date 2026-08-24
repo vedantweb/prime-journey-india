@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, ArrowRight, BedDouble, CalendarCheck, Check, Minus, UtensilsCrossed, Car, Info } from 'lucide-react';
 import { packages as staticPackages } from '../data/packages';
 import usePackagePrices from '../hooks/usePackagePrices';
@@ -23,6 +24,9 @@ export default function PackageDetail() {
     );
   }
 
+  const seoTitle = `${pkg.name} | ${pkg.destination} Tour Package from Amritsar | Prime Journey India`;
+  const seoDescription = `Explore the ${pkg.name} ${pkg.destination} tour package from Amritsar with Prime Journey India. ${pkg.duration} journey covering ${pkg.route}.`;
+
   const related = packages.filter((p) => p.id !== pkg.id && p.destination === pkg.destination);
   const relatedList = (related.length ? related : packages.filter((p) => p.id !== pkg.id)).slice(0, 3);
 
@@ -34,7 +38,27 @@ export default function PackageDetail() {
   ];
 
   return (
-    <div data-testid={`package-page-${pkg.id}`}>
+    <>
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <link
+          rel="canonical"
+          href={`https://primejourneyindia.com/packages/${pkg.id}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:url" content={`https://primejourneyindia.com/packages/${pkg.id}`} />
+        <meta property="og:image" content={pkg.image} />
+        <meta property="og:site_name" content="Prime Journey India" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content={pkg.image} />
+      </Helmet>
+      <div data-testid={`package-page-${pkg.id}`}>
+
       <section className="relative flex h-[58vh] min-h-[420px] items-end overflow-hidden">
         <img src={pkg.image} alt={pkg.alt} className="hero-zoom absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep/90 via-ocean-deep/25 to-ocean-deep/30" />
@@ -199,6 +223,7 @@ export default function PackageDetail() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }
