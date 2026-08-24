@@ -3,16 +3,22 @@
   <url><loc>https://www.primejourneyindia.com/</loc></url>
   <url><loc>https://www.primejourneyindia.com/about</loc></url>
   <url><loc>https://www.primejourneyindia.com/contact</loc></url>
-  <url><loc>https://www.primejourneyindia.com/destinations/amritsar</loc></url>
+
   <url><loc>https://www.primejourneyindia.com/destinations/kashmir</loc></url>
-  <url><loc>https://www.primejourneyindia.com/destinations/himachal</loc></url>
   <url><loc>https://www.primejourneyindia.com/destinations/rajasthan</loc></url>
-  <url><loc>https://www.primejourneyindia.com/destinations/ladakh</loc></url>
+  <url><loc>https://www.primejourneyindia.com/destinations/amritsar</loc></url>
+  <url><loc>https://www.primejourneyindia.com/destinations/himachal</loc></url>
   <url><loc>https://www.primejourneyindia.com/destinations/kerala</loc></url>
   <url><loc>https://www.primejourneyindia.com/destinations/goa</loc></url>
   <url><loc>https://www.primejourneyindia.com/destinations/northeast</loc></url>
+  <url><loc>https://www.primejourneyindia.com/destinations/ladakh</loc></url>
   <url><loc>https://www.primejourneyindia.com/destinations/uttarakhand</loc></url>
-  <url><loc>https://www.primejourneyindia.com/packages</loc></url>
-  <url><loc>https://www.primejourneyindia.com/experiences</loc></url>
-  <url><loc>https://www.primejourneyindia.com/customize</loc></url>
+
+  <url><loc>https://www.primejourneyindia.com/packages/kashmir-escape</loc></url>
+  <url><loc>https://www.primejourneyindia.com/packages/royal-rajasthan</loc></url>
+  <url><loc>https://www.primejourneyindia.com/packages/amritsar-heritage</loc></url>
+  <url><loc>https://www.primejourneyindia.com/packages/himachal-escape</loc></url>
+  <url><loc>https://www.primejourneyindia.com/packages/kerala-backwaters</loc></url>
+  <url><loc>https://www.primejourneyindia.com/packages/goa-getaway</loc></url>
+  <url><loc>https://www.primejourneyindia.com/packages/ladakh-explorer</loc></url>
 </urlset>
