@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://primejourneyindia.com/sitemap.xml
+Sitemap: https://www.primejourneyindia.com/sitemap.xml
