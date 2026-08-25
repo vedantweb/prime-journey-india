@@ -44,12 +44,12 @@ export default function PackageDetail() {
         <meta name="description" content={seoDescription} />
         <link
           rel="canonical"
-          href={`https://primejourneyindia.com/packages/${pkg.id}`}
+          href={`https://www.primejourneyindia.com/packages/${pkg.id}`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDescription} />
-        <meta property="og:url" content={`https://primejourneyindia.com/packages/${pkg.id}`} />
+        <meta property="og:url" content={`https://www.primejourneyindia.com/packages/${pkg.id}`} />
         <meta property="og:image" content={pkg.image} />
         <meta property="og:site_name" content="Prime Journey India" />
         <meta name="twitter:card" content="summary_large_image" />

@@ -72,7 +72,7 @@ export default function DestinationDetail() {
   const relatedPackages = packages.filter((p) => p.destination.toLowerCase() === d.id || p.route.toLowerCase().includes(d.name.toLowerCase()));
   const relatedExperiences = experiences.filter((e) => e.destId === d.id);
 
-  const canonicalUrl = `https://primejourneyindia.com/destinations/${d.id}`;
+  const canonicalUrl = `https://www.primejourneyindia.com/destinations/${d.id}`;
 
   return (
     <>

@@ -61,7 +61,7 @@ function Shell() {
       '@context': 'https://schema.org',
       '@type': 'TravelAgency',
       name: 'Prime Journey India',
-      url: 'https://primejourneyindia.com/',
+      url: 'https://www.primejourneyindia.com/',
       telephone: '+91 8699913245',
       email: 'contact@primejourneyindia.com',
       description: 'Travel agency in Amritsar offering customized India tours and holiday packages.',
